@@ -8,6 +8,15 @@ const postSchema = new Schema(
         caption: { type: String, required: true},
         image: { type: String, required: true}, 
         likes: [{type: ObjectId, ref: "User"}],
+        comments: [{
+            text: {
+                type: String
+            }, 
+            postedBy: {
+                type: ObjectId, 
+                ref: "User"
+            }
+        }],
         postedBy: { type: ObjectId, ref: "User"}
     }, 
     {

@@ -134,7 +134,7 @@ controller.put('/unlike', passport.authenticate('jwt', { session: false }), asyn
             // returns entire post that was just unliked by the user
             return res.json(postToUnLike)
         } else {
-            return res.status(422).json({error:"Sorry, unable to like the post. Please try again later."});
+            return res.status(422).json({error:"Sorry, unable remove like the post. Please try again later."});
         }
 
     } catch(e) {
@@ -145,5 +145,43 @@ controller.put('/unlike', passport.authenticate('jwt', { session: false }), asyn
     }
 
 })
+
+// COMMENT ROUTE 
+controller.put('/comment', passport.authenticate('jwt', { session: false }), async (req, res) =>{
+    try {
+        const newComment = {
+            text: req.body.text,
+            postedBy: req.user._id
+        }
+
+        const addNewComment = await Post.findByIdAndUpdate(
+            req.body.postId, {
+                $push:{comments: newComment}
+            }, {
+                new: true
+            }
+        )
+        .populate([
+            {
+                path: 'comments.postedBy',
+                select: ['_id','name']
+            }])
+
+        if(addNewComment) {
+            // returns the comment, the name and id of commenter
+            return res.json({addNewComment})
+        } else {
+            return res.status(422).json({error:"Sorry, unable to comment on the post. Please try again later."});
+        }
+        } catch(e) {
+            return res.status(400).json({
+                name: e.name,
+                message: e.message
+            })
+        }
+})
+    
+    
+    
 
 module.exports = controller

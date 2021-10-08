@@ -9,12 +9,18 @@ const Post = require("../models/post");
 controller.get('/allposts', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const posts = await Post.find({})
-        // .populate("postedBy", "_id name")
         .populate([
             {
                 path: 'postedBy',
                 select: ['_id','name']
             }])
+        .populate([
+            {
+                path: 'comments.postedBy',
+                select: ['_id','name']
+            }
+        ])
+        .sort('updatedAt')
         // returns list of all posts currently available on the app
         res.json({posts})
     } catch(e) {
@@ -161,11 +167,18 @@ controller.put('/comment', passport.authenticate('jwt', { session: false }), asy
                 new: true
             }
         )
-        .populate([
+        // info on who created the comment for the post
+        .populate([ 
             {
                 path: 'comments.postedBy',
                 select: ['_id','name']
             }])
+        // info on who created the post that user is commenting on
+        .populate([
+            {
+                path: 'postedBy',
+                select: ['_id','name']
+        }])
 
         if(addNewComment) {
             // returns the comment, the name and id of commenter
@@ -181,7 +194,40 @@ controller.put('/comment', passport.authenticate('jwt', { session: false }), asy
         }
 })
     
-    
+controller.delete('/deletepost/:postId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+
+        const deletePost = await Post.findById(
+            req.params.postId,
+        )
+        .populate("postedBy", "_id")
+
+        if(!deletePost){
+            res.status(422).json({error: "We cannot find this post to delete."})
+        } else {
+            if(deletePost.postedBy._id.toString() === req.user._id.toString()){
+                try {
+                    await Post.deleteOne({
+                        _id: req.params.postId
+                    })
+
+                    res.status(200).json({message: "Post deleted!"})
+                } catch(e) {
+                    return res.status(400).json({
+                        name: e.name,
+                        message: e.message
+                    })
+                }
+            }
+        }
+
+    } catch(e) {
+        return res.status(400).json({
+            name: e.name,
+            message: e.message
+        })
+    }
+})
     
 
 module.exports = controller

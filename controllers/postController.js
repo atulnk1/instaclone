@@ -15,6 +15,7 @@ controller.get('/allposts', passport.authenticate('jwt', { session: false }), as
                 path: 'postedBy',
                 select: ['_id','name']
             }])
+        // returns list of all posts currently available on the app
         res.json({posts})
     } catch(e) {
         return res.status(400).json({
@@ -35,6 +36,7 @@ controller.get('/myposts', passport.authenticate('jwt', { session: false }), asy
                 path: 'postedBy',
                 select: ['_id','name']
             }])
+        // Return list of posts associated to the user who is currently using the app
         return res.json({myPosts})
     } catch(e) {
         return res.status(400).json({
@@ -62,7 +64,7 @@ controller.post('/newpost', passport.authenticate('jwt', { session: false }), as
             }
 
             const post = await Post.create(inputs)
-
+            // returns new post object to the requester after successful post 
             return res.json({post})
 
 
@@ -82,6 +84,66 @@ controller.post('/newpost', passport.authenticate('jwt', { session: false }), as
     
 })
 
+// LIKE A POST 
+controller.put('/like', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+        const postToLike = await Post.findByIdAndUpdate(
+            req.body.postId,
+            {
+                // addToSet operator adds a value to an array unless the value is already present, in which case $addToSet does nothing to that array.  
+                $addToSet: {likes:req.user._id}
+            }, {
+                new: true
+            }
+        );
 
+        // console.log(postToLike)
+
+        if(postToLike) {
+            // returns entire post that was like by the user
+            return res.json(postToLike)
+        } else {
+            return res.status(422).json({error:"Sorry, unable to like the post. Please try again later."});
+        }
+
+    } catch(e) {
+        return res.status(400).json({
+            name: e.name,
+            message: e.message
+        })
+    }
+
+})
+
+// REMOVE LIKE FROM POST
+controller.put('/unlike', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+        const postToUnLike = await Post.findByIdAndUpdate(
+            req.body.postId,
+            {
+                // pull operator removes from an existing array all instances of a value or values that match a specified condition.
+                $pull: {likes:req.user._id}
+            }, {
+                new: true
+            }
+        );
+
+        // console.log(postToLike)
+
+        if(postToUnLike) {
+            // returns entire post that was just unliked by the user
+            return res.json(postToUnLike)
+        } else {
+            return res.status(422).json({error:"Sorry, unable to like the post. Please try again later."});
+        }
+
+    } catch(e) {
+        return res.status(400).json({
+            name: e.name,
+            message: e.message
+        })
+    }
+
+})
 
 module.exports = controller

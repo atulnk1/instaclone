@@ -40,7 +40,7 @@ controller.post('/signup', async (req, res) => {
                 }
 
                 await User.create(inputs)
-
+                // returns successful sign up message after sign up
                 return res.status(200).json({message: "User successfully created"})
 
 
@@ -81,6 +81,7 @@ controller.post('/signin', async (req, res) => {
             } else {
                 // return res.json({message: "User logged in"})
                 const token = jwt.sign({_id: existingUser._id}, JWT_SECRET)
+                // returns JWT token after successful sign in
                 return res.json({token})
             }
         }

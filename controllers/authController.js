@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/keys');
 
 
-// Test to see if the passport middleware works
+// Test to see if the passport middleware works to check if the JWT token is valid
 // const passport = require('passport')
 
 // controller.get('/protected', passport.authenticate('jwt', { session: false }),(req, res) => {

@@ -13,6 +13,8 @@ const app = express();
 
 // Required Controllers
 const authController = require('./controllers/authController');
+const postController = require('./controllers/postController');
+
 
 // DB Connection methods
 const dbConnection = mongoose.connection;
@@ -22,6 +24,7 @@ dbConnection.on("error", (err) => console.log(`Got error! ${err.message}`));
 dbConnection.on("disconnected", () => console.log("My database is disconnected"));
 
 require('./models/user');
+require('./models/post');
 
 // Additional middlewares
 app.use(express.json());
@@ -31,5 +34,6 @@ app.use(passport.initialize());
 
 // Linking to the controllers
 app.use('/api', authController);
+app.use('/api', postController)
 
 app.listen(process.env.PORT)

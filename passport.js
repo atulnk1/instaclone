@@ -16,7 +16,7 @@ const strategy = new Strategy(options, async (payload, callback) => {
         return callback(new Error("User not found!"), null)
     }
 
-    return callback(null, {_id: user._id})
+    return callback(null, user)
 })
 
 module.exports = strategy;

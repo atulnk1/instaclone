@@ -13,16 +13,48 @@ controller.get('/allposts', passport.authenticate('jwt', { session: false }), as
             {
                 path: 'postedBy',
                 select: ['_id','name']
-            }])
-        .populate([
+            }, 
             {
                 path: 'comments.postedBy',
                 select: ['_id','name']
-            }
-        ])
-        .sort('updatedAt')
+            }])
+        .sort('-updatedAt')
         // returns list of all posts currently available on the app
         res.json({posts})
+    } catch(e) {
+        return res.status(400).json({
+            name: e.name,
+            message: e.message
+        })
+    }
+})
+
+// GET ALL POSTS FOR THE PERSON YOU FOLLOW 
+controller.get('/followingpost', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+
+        const followingPost = await Post.find({
+            postedBy:{
+                $in: req.user.following
+            }
+        })
+        .populate([
+            {
+                path: 'postedBy',
+                select: ['_id','name']
+            }, 
+            {
+                path: 'comments.postedBy',
+                select: ['_id','name']
+            }])
+        .sort('-updatedAt')
+
+        if(!followingPost){
+            res.status(422).json({error: "Something went wrong when fetching your follow list. Please try again later."})
+        } else {
+            res.json({followingPost})
+        }
+
     } catch(e) {
         return res.status(400).json({
             name: e.name,
@@ -167,18 +199,20 @@ controller.put('/comment', passport.authenticate('jwt', { session: false }), asy
                 new: true
             }
         )
-        // info on who created the comment for the post
         .populate([ 
             {
+                // info on who created the comment for the post
                 path: 'comments.postedBy',
                 select: ['_id','name']
-            }])
-        // info on who created the post that user is commenting on
-        .populate([
+            }, 
             {
+                // info on who created the post that user is commenting on
                 path: 'postedBy',
                 select: ['_id','name']
-        }])
+            }
+        ])
+        
+        
 
         if(addNewComment) {
             // returns the comment, the name and id of commenter

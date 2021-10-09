@@ -81,8 +81,9 @@ controller.post('/signin', async (req, res) => {
             } else {
                 // return res.json({message: "User logged in"})
                 const token = jwt.sign({_id: existingUser._id}, JWT_SECRET)
+                const { _id, name, email, followers, following } = existingUser
                 // returns JWT token after successful sign in
-                return res.json({token})
+                return res.json({token, user:{_id, name, email, followers, following}})
             }
         }
 

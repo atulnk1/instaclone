@@ -14,6 +14,7 @@ const app = express();
 // Required Controllers
 const authController = require('./controllers/authController');
 const postController = require('./controllers/postController');
+const profileController = require('./controllers/profileController');
 
 
 // DB Connection methods
@@ -34,6 +35,7 @@ app.use(passport.initialize());
 
 // Linking to the controllers
 app.use('/api', authController);
-app.use('/api', postController)
+app.use('/api', postController);
+app.use('/api', profileController);
 
 app.listen(process.env.PORT)

@@ -193,14 +193,19 @@ controller.put('/comment', passport.authenticate('jwt', { session: false }), asy
             })
         }
 })
-    
+
+// DELETE THE POST 
 controller.delete('/deletepost/:postId', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
 
         const deletePost = await Post.findById(
             req.params.postId,
         )
-        .populate("postedBy", "_id")
+        .populate([
+            {
+                path: 'postedBy',
+                select: ['_id','name']
+        }])
 
         if(!deletePost){
             res.status(422).json({error: "We cannot find this post to delete."})

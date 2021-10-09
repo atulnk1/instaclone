@@ -143,4 +143,33 @@ controller.put('/unfollow', passport.authenticate('jwt', { session: false }), as
     }
 })
 
+// UPDATE PROFILE PICTURE
+controller.put('/updatepicture', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+
+        const updatePicture = await User.findByIdAndUpdate(
+            req.user._id,
+            {
+                $set:{picture: req.body.picture}
+            },{
+                new: true,
+                select: '-password'
+            }
+        )
+
+        if(!updatePicture) {
+            res.status(422).json({error:"Unable to update your picture. Please try again later."})
+        } else {
+            // Passes the entire user profile with the update profile picture (minus the password)
+            res.json(updatePicture)
+        }
+
+    } catch(e) {
+        return res.status(400).json({
+            name: e.name,
+            message: e.message
+        })
+    }
+})
+
 module.exports = controller;

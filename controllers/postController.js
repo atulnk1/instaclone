@@ -29,8 +29,8 @@ controller.get('/allposts', passport.authenticate('jwt', { session: false }), as
     }
 })
 
-// GET ALL POSTS FOR THE PERSON YOU FOLLOW 
-controller.get('/followingpost', passport.authenticate('jwt', { session: false }), async (req, res) => {
+// GET ALL POSTS FOR THE PEOPLE YOU FOLLOW 
+controller.get('/followingposts', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
 
         const followingPost = await Post.find({

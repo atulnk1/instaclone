@@ -17,7 +17,7 @@ const { JWT_SECRET } = require('../config/keys');
 
 controller.post('/signup', async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, picture } = req.body;
         const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
         // console.log(req.body)
@@ -36,7 +36,8 @@ controller.post('/signup', async (req, res) => {
                 const inputs = {
                     name: name,
                     email: email,
-                    password: hashedPassword
+                    password: hashedPassword,
+                    picture: picture
                 }
 
                 await User.create(inputs)
@@ -81,9 +82,9 @@ controller.post('/signin', async (req, res) => {
             } else {
                 // return res.json({message: "User logged in"})
                 const token = jwt.sign({_id: existingUser._id}, JWT_SECRET)
-                const { _id, name, email, followers, following } = existingUser
+                const { _id, name, email, followers, following, picture } = existingUser
                 // returns JWT token after successful sign in
-                return res.json({token, user:{_id, name, email, followers, following}})
+                return res.json({token, user:{_id, name, email, followers, following, picture }})
             }
         }
 

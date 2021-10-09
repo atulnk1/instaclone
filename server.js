@@ -38,4 +38,15 @@ app.use('/api', authController);
 app.use('/api', postController);
 app.use('/api', profileController);
 
+// Check environment
+if (process.env.NODE_ENV==="production") {
+    // need to serve the static files that are in the build folder when running on heroku
+    app.use(express.static('client/build'));
+    const path = require('path');
+    // if the client makes ANY request, we will send the index.html file 
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
+}
+
 app.listen(process.env.PORT)

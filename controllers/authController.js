@@ -26,14 +26,14 @@ const emailNewUser = (newUserEmail) => {
     })
 }
 // Helper function to send the password reset email
-const passwordReset = (passwordResetEmail) => {
+const passwordReset = (passwordResetEmail, resetToken) => {
     // console.log(passwordResetEmail)
     transporter.sendMail({
         to: passwordResetEmail,
         from: "atulnk1@gmail.com",
         subject:"Password Reset Request",
         html:`<h1>There was a request to reset your password with this email address</h1>
-        <h3>Please click this <a href="google.com">link</a> to reset your password`
+        <h3>Please click this <a href="http://localhost:3001/reset/${resetToken}">link</a> to reset your password`
     })
 }
 
@@ -64,7 +64,7 @@ controller.post('/signup', async (req, res) => {
 
                 await User.create(inputs)
 
-                await emailNewUser(inputs.email)
+                emailNewUser(inputs.email)
                 // returns successful sign up message after sign up
                 return res.status(200).json({message: "User successfully created"})
 
@@ -146,7 +146,7 @@ controller.post('/reset-password', async (req, res) => {
             if(!findResetPasswordUser) {
                 return res.status(422).json({error: "Sorry, user does not exist."})
             } else {
-                passwordReset(findResetPasswordUser.email);
+                passwordReset(findResetPasswordUser.email, token);
                 return res.json({message: "Password reset email sent!"})
             }
         } catch (e) {
@@ -156,6 +156,45 @@ controller.post('/reset-password', async (req, res) => {
             })
         }
     })
+})
+
+controller.post('/new-password', async(req, res) => {
+    try {
+        const newPassword = req.body.password
+        /*If the reset link is valid, this should be the  
+        same token as the one that was set when the user 
+        made a request to reset their password */
+        const sentToken = req.body.token 
+        const newHashedPassword = bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10));
+
+        const resetPasswordRequest = await User.findOneAndUpdate(
+            {
+                resetToken:sentToken,
+                expireToken:{
+                    $gt:Date.now()
+                }
+            }, {
+                password:newHashedPassword,
+                resetToken:null,
+                expireToken:null
+            }, {
+                new: true,
+                select: '-password'
+            }
+        )
+
+        if(!resetPasswordRequest) {
+            return res.status(422).json({error: "Reset request has expired. Please try again."})
+        } else {
+            return res.json({message: "Password updated successfully."})
+        }
+    } catch (e) {
+        return res.status(400).json({
+            name: e.name,
+            message: e.message
+        })
+    }
+    
 })
 
 module.exports = controller;

@@ -13,7 +13,7 @@ controller.get('/profile/:userId', passport.authenticate('jwt', { session: false
             '-password'
             )
         if(!findUser) {
-            res.status(422).json({error:"Sorry, user not found."})
+            return res.status(422).json({error:"Sorry, user not found."})
         } else {
             try {
                 const findPosts = await Post.find({
@@ -26,10 +26,10 @@ controller.get('/profile/:userId', passport.authenticate('jwt', { session: false
                 }])
 
                 if(!findPosts){
-                    res.status(422).json({error: "Unable to retrieve posts for user. Please try again."})
+                    return res.status(422).json({error: "Unable to retrieve posts for user. Please try again."})
                 } else {
                     // returns details on queried user and all associated posts for said user
-                    res.json({findUser, findPosts})
+                    return res.json({findUser, findPosts})
                 }
             } catch(e) {
                 return res.status(400).json({
@@ -75,9 +75,9 @@ controller.put('/follow', passport.authenticate('jwt', { session: false }), asyn
                     }
                 )
                 if(!updateFollowing){
-                    res.status(422).json({error: "Unable to follow this user. Try again later."})
+                    return res.status(422).json({error: "Unable to follow this user. Try again later."})
                 } else {
-                    res.json({updateFollowing})
+                    return res.json({updateFollowing})
                 }
             } catch(e) {
                 return res.status(400).json({
@@ -109,7 +109,7 @@ controller.put('/unfollow', passport.authenticate('jwt', { session: false }), as
         )
 
         if(!updateFollowers) {
-            res.status(422).json({error: "Unable to unfollow this user. Try again later."})
+            return res.status(422).json({error: "Unable to unfollow this user. Try again later."})
         } else {
             try {
                 // Update hte list of following for the current logged in user
@@ -124,9 +124,9 @@ controller.put('/unfollow', passport.authenticate('jwt', { session: false }), as
                     }
                 )
                 if(!updateFollowing){
-                    res.status(422).json({error: "Unable to unfollow this user. Try again later."})
+                    return res.status(422).json({error: "Unable to unfollow this user. Try again later."})
                 } else {
-                    res.json({updateFollowing})
+                    return res.json({updateFollowing})
                 }
             } catch(e) {
                 return res.status(400).json({
@@ -158,10 +158,10 @@ controller.put('/updatepicture', passport.authenticate('jwt', { session: false }
         )
 
         if(!updatePicture) {
-            res.status(422).json({error:"Unable to update your picture. Please try again later."})
+            return res.status(422).json({error:"Unable to update your picture. Please try again later."})
         } else {
             // Passes the entire user profile with the update profile picture (minus the password)
-            res.json(updatePicture)
+            return res.json(updatePicture)
         }
 
     } catch(e) {
@@ -169,6 +169,29 @@ controller.put('/updatepicture', passport.authenticate('jwt', { session: false }
             name: e.name,
             message: e.message
         })
+    }
+})
+
+// SEARCH USER END POINT
+controller.post('/search-user', passport.authenticate('jwt', { session: false }), async (req, res) =>{
+    let userPattern = new RegExp('^'+req.body.query)
+    const foundUsers = await User.find(
+        {
+            $or:[
+                {
+                    email:userPattern
+                },
+                {
+                    name:userPattern
+                }
+            ]
+        },
+        '_id name email'
+    )
+    if(!foundUsers) {
+        return res.status(422).json({error: "Sorry, no user found."})
+    } else {
+        return res.json({foundUsers})
     }
 })
 

@@ -36,9 +36,9 @@ const ProtectedRouting = () => {
 
   return (
     <Switch>
-      <Route path={ROUTES.LOGIN}>
+      {/* <Route path={ROUTES.LOGIN}>
         <Login />
-      </Route>
+      </Route> */}
       <Route path={ROUTES.PROFILE}>
         <Profile />
       </Route>

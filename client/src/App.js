@@ -4,7 +4,7 @@ import * as ROUTES from "./constants/routes";
 import Spinner from "./components/Spinner";
 import { reducer, initialState } from "./reducers/userReducer";
 import UserContext from "./context/user";
-import ProtectedRouting from "./Routing";
+import ProtectedRouting from "./ProtectedRouting";
 import Login from "./pages/login";
 import SignUp from "./pages/sign-up";
 import NotFound from "./pages/not-found";
@@ -23,7 +23,7 @@ export default function App() {
       <Router>
         <Suspense fallback={<Spinner />}>
           <Switch>
-            <Route path={ROUTES.LOGIN}>
+            <Route exact path={ROUTES.LOGIN}>
               <Login />
             </Route>
             <Route path={ROUTES.SIGN_UP}>

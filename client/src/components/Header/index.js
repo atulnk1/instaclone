@@ -12,10 +12,13 @@ import { HomeIcon } from "@heroicons/react/solid";
 import { Link, useHistory } from "react-router-dom";
 import UserContext from "../../context/user";
 import * as ROUTES from "../../constants/routes";
+import { useRecoilState } from "recoil";
+import { modalState } from "../../atoms/modalAtom";
 
 function Header() {
   const history = useHistory();
   const { state, dispatch } = useContext(UserContext);
+  const [open, setOpen] = useRecoilState(modalState);
 
   //   console.log("state", state);
 
@@ -71,7 +74,9 @@ function Header() {
           </Link>
           <MenuIcon className="h-6 md:hidden cursor-pointer" />
           <PlusCircleIcon
-            onClick={() => console.log("remember to setOpen the function")}
+            onClick={() => {
+              setOpen(true);
+            }}
             className="navBtn"
           />
           <GlobeIcon className="navBtn" />

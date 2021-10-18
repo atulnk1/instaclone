@@ -1,12 +1,11 @@
-import { collection, onSnapshot, orderBy, query } from "@firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
+
 import Post from "./Post";
 
 function Posts() {
-  const [posts, setPosts] = useState([]);
+  //   const [posts, setPosts] = useState([]);
 
-  useEffect();
+  //   useEffect();
   // () =>
   //   onSnapshot(
   //     query(collection(db, "posts"), orderBy("timestamp", "desc")),
@@ -16,11 +15,12 @@ function Posts() {
   //   ),
   // [db]
 
-  console.log(posts);
+  //   console.log(posts);
 
   return (
     <div>
-      {posts.map((post) => (
+      <h1>I am a post</h1>
+      {/* {posts.map((post) => (
         <Post
           key={post.id}
           id={post.id}
@@ -28,7 +28,7 @@ function Posts() {
           userImg={post.data().profileImg}
           img={post.data().image}
           caption={post.data().caption}
-        />
+        /> */}
       ))}
     </div>
   );

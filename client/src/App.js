@@ -8,6 +8,7 @@ import ProtectedRouting from "./ProtectedRouting";
 import Login from "./pages/login";
 import SignUp from "./pages/sign-up";
 import NotFound from "./pages/not-found";
+import { RecoilRoot } from "recoil";
 
 // const Login = lazy(() => import("./pages/login"));
 // const SignUp = lazy(() => import("./pages/sign-up"));
@@ -20,22 +21,24 @@ export default function App() {
 
   return (
     <UserContext.Provider value={{ state, dispatch }}>
-      <Router>
-        <Suspense fallback={<Spinner />}>
-          <Switch>
-            <Route exact path={ROUTES.LOGIN}>
-              <Login />
-            </Route>
-            <Route path={ROUTES.SIGN_UP}>
-              <SignUp />
-            </Route>
-            <ProtectedRouting />
-            <Route>
-              <NotFound />
-            </Route>
-          </Switch>
-        </Suspense>
-      </Router>
+      <RecoilRoot>
+        <Router>
+          <Suspense fallback={<Spinner />}>
+            <Switch>
+              <Route exact path={ROUTES.LOGIN}>
+                <Login />
+              </Route>
+              <Route path={ROUTES.SIGN_UP}>
+                <SignUp />
+              </Route>
+              <ProtectedRouting />
+              <Route>
+                <NotFound />
+              </Route>
+            </Switch>
+          </Suspense>
+        </Router>
+      </RecoilRoot>
     </UserContext.Provider>
   );
 }

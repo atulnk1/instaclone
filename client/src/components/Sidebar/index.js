@@ -1,7 +1,24 @@
+import { useContext } from "react";
+import User from "./User";
+import Suggestions from "./Suggestions";
+import UserContext from "../../context/user";
+
 function Sidebar() {
+  const { state, dispatch } = useContext(UserContext);
+
+  const { _id, name, picture, following } = state ? state : {};
+
+  console.log("state", state);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    dispatch({ type: "CLEAR" });
+  };
+
   return (
     <div>
-      <h1>I am the Sidebar</h1>
+      <User name={name} picture={picture} handleLogout={handleLogout} />
+      <Suggestions following={following} loggedInUserId={_id} />
     </div>
   );
 }

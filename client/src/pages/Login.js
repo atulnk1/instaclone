@@ -1,9 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
+import axios from "axios";
+import UserContext from "../context/user";
 
 export default function Login() {
+  const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
+
+  console.log("state", state);
 
   //field value states
   const [emailAddress, setEmailAddress] = useState("");
@@ -15,9 +20,29 @@ export default function Login() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    const userWhoIsTryingToSignIn = {
+      method: "POST",
+      url: "/api/signin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        email: emailAddress,
+        password,
+      },
+    };
     try {
-      console.log("successfully logged in");
-      history.push(ROUTES.DASHBOARD);
+      axios(userWhoIsTryingToSignIn)
+        .then((response) => {
+          console.log(response.data);
+          localStorage.setItem("jwt", response.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          dispatch({ type: "USER", payload: response.data.user });
+          console.log("successfully logged in");
+        })
+        .then((response) => {
+          history.push(ROUTES.DASHBOARD);
+        });
     } catch (error) {
       setEmailAddress("");
       setPassword("");

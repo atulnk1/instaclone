@@ -1,27 +1,41 @@
-import { lazy, Suspense } from "react";
+import { Suspense, lazy, useReducer, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import * as ROUTES from "./constants/routes";
+import Spinner from "./components/Spinner";
+import { reducer, initialState } from "./reducers/userReducer";
+import UserContext from "./context/user";
+import ProtectedRouting from "./Routing";
+import Login from "./pages/login";
+import SignUp from "./pages/sign-up";
+import NotFound from "./pages/not-found";
 
-//Enables lazy loading --> splits build into separate js bundles that will be delivered on demand vs one whole pack
-//Improves performance of app once it gets bigger
-const Login = lazy(() => import("./pages/Login"));
-const SignUp = lazy(() => import("./pages/Sign-up"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const Profile = lazy(() => import("./pages/Profile"));
-const NotFound = lazy(() => import("./pages/Not-found"));
+// const Login = lazy(() => import("./pages/login"));
+// const SignUp = lazy(() => import("./pages/sign-up"));
+// const Dashboard = lazy(() => import("./pages/dashboard"));
+// const Profile = lazy(() => import("./pages/profile"));
+// const NotFound = lazy(() => import("./pages/not-found"));
 
 export default function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
-    <Router>
-      <Suspense fallback={<p>Loading...</p>}>
-        <Switch>
-          <Route path={ROUTES.LOGIN} component={Login} />
-          <Route path={ROUTES.SIGN_UP} component={SignUp} />
-          <Route path={ROUTES.PROFILE} component={Profile} />
-          <Route path={ROUTES.DASHBOARD} component={Dashboard} />
-          <Route component={NotFound} />
-        </Switch>
-      </Suspense>
-    </Router>
+    <UserContext.Provider value={{ state, dispatch }}>
+      <Router>
+        <Suspense fallback={<Spinner />}>
+          <Switch>
+            <Route path={ROUTES.LOGIN}>
+              <Login />
+            </Route>
+            <Route path={ROUTES.SIGN_UP}>
+              <SignUp />
+            </Route>
+            <ProtectedRouting />
+            <Route>
+              <NotFound />
+            </Route>
+          </Switch>
+        </Suspense>
+      </Router>
+    </UserContext.Provider>
   );
 }

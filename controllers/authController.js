@@ -53,11 +53,9 @@ controller.post("/signup", async (req, res) => {
     const existingUser = await User.findOne({ email: email });
 
     if (existingUser) {
-      return res
-        .status(422)
-        .json({
-          error: "User already exits. Please register with another email.",
-        });
+      return res.status(422).json({
+        error: "User already exits. Please register with another email.",
+      });
     } else {
       try {
         const inputs = {

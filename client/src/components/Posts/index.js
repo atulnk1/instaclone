@@ -1,34 +1,48 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import UserContext from "../../context/user";
 
 import Post from "./Post";
 
 function Posts() {
-  //   const [posts, setPosts] = useState([]);
+  const [data, setData] = useState([]);
+  const { state, dispatch } = useContext(UserContext);
+  // const [comments, setComments] = useState([]);
 
-  //   useEffect();
-  // () =>
-  //   onSnapshot(
-  //     query(collection(db, "posts"), orderBy("timestamp", "desc")),
-  //     (snapshot) => {
-  //       setPosts(snapshot.docs);
-  //     }
-  //   ),
-  // [db]
+  // const [posts, setPosts] = useState([]);
 
-  //   console.log(posts);
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: "/api/allposts",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    }).then((response) => {
+      console.log(`all post api call response`, response);
+      setData(response.data.posts);
+    });
+  }, []);
+
+  console.log("post data at Posts index", data);
+  console.log("data.comments", data.comments);
+  //data refers to the entire post data
 
   return (
     <div>
       <h1>I am a post</h1>
-      {/* {posts.map((post) => (
+      {data.map((post) => (
         <Post
-          key={post.id}
-          id={post.id}
-          username={post.data().username}
-          userImg={post.data().profileImg}
-          img={post.data().image}
-          caption={post.data().caption}
-        /> */}
+          key={post._id}
+          id={post._id}
+          username={post.postedBy.name}
+          userImg={post.postedBy.picture}
+          img={post.image}
+          caption={post.caption}
+          data={data}
+          setData={setData}
+          comments={data.comments}
+        />
       ))}
     </div>
   );

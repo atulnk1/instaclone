@@ -1,4 +1,4 @@
-export const initialState = null;
+export const initialState = JSON.parse(localStorage.getItem("user"));
 // {
 // name: "",
 // email: "",
@@ -7,7 +7,7 @@ export const initialState = null;
 // picture: "",
 // };
 
-export const reducer = (state, action) => {
+export const userReducer = (state, action) => {
   switch (action.type) {
     case "USER":
       return action.payload;

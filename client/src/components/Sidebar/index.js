@@ -8,7 +8,7 @@ function Sidebar() {
 
   const { _id, name, picture, following } = state ? state : {};
 
-  console.log("state", state);
+  console.log("state at Sidebar Component", state);
 
   const handleLogout = () => {
     localStorage.clear();

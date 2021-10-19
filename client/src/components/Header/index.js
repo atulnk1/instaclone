@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { Redirect } from "react-router-dom";
 import {
   SearchIcon,
   PlusCircleIcon,
@@ -25,6 +24,7 @@ function Header() {
   const handleLogout = () => {
     localStorage.clear();
     dispatch({ type: "CLEAR" });
+    // history.push(ROUTES.LOGIN);
   };
 
   return (
@@ -79,18 +79,19 @@ function Header() {
             }}
             className="navBtn"
           />
-          <GlobeIcon className="navBtn" />
-          <a href={ROUTES.LOGIN}>
-            <LogoutIcon className="navBtn" onClick={handleLogout} />
-          </a>
-          <img
-            src={state ? state.picture : ""}
-            alt="Profile Picture"
-            className="h-10 w-10 rounded-full cursor-pointer"
-            onClick={() =>
-              console.log("Remember to redirect using history to profile")
-            }
-          />
+          <Link to={ROUTES.NOT_FOUND}>
+            <GlobeIcon className="navBtn" />
+          </Link>
+
+          {/* <a href={ROUTES.LOGIN}></a> */}
+          <LogoutIcon className="navBtn" onClick={handleLogout} />
+          <Link to={ROUTES.MYPROFILE}>
+            <img
+              src={state ? state.picture : ""}
+              alt="Profile Picture"
+              className="h-10 w-10 rounded-full cursor-pointer"
+            />
+          </Link>
         </div>
       </div>
     </div>

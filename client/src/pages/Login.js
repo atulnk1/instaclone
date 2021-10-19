@@ -8,7 +8,7 @@ export default function Login() {
   const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
 
-  console.log("state", state);
+  console.log("state at login page", state);
 
   //field value states
   const [emailAddress, setEmailAddress] = useState("");
@@ -38,6 +38,7 @@ export default function Login() {
           localStorage.setItem("jwt", response.data.token);
           localStorage.setItem("user", JSON.stringify(response.data.user));
           dispatch({ type: "USER", payload: response.data.user });
+          //user state gets updated to the user and transferred to relevant componenets through the context api
           console.log("successfully logged in");
         })
         .then((response) => {

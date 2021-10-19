@@ -6,7 +6,7 @@ import UserContext from "../../context/user";
 import Photos from "./photos";
 
 function MyProfile() {
-  const [myPhotoCollection, setMyPhotoCollection] = useState([]);
+  const [myPosts, setMyPosts] = useState([]);
   const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
 
@@ -15,23 +15,23 @@ function MyProfile() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "/api/mypost",
+      url: "/api/myposts",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((response) => {
-      console.log("/mypostapireponse", response.data);
-      setMyPhotoCollection(response.data);
+      console.log("/mypostsapireponse", response.data);
+      setMyPosts(response.data);
     });
   }, []);
-  console.log(myPhotoCollection);
+  console.log(myPosts);
 
   return (
     <>
       {/* Header - props to pass: photos collection -for length, name, picture, followers array, following array */}
       <ProfileHeader state={state} history={history} />
       {/* photos */}
-      <Photos state={state} />
+      <Photos myPosts={myPosts} />
     </>
   );
 }

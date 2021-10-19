@@ -7,11 +7,12 @@ import Post from "./Post";
 function Posts() {
   const [data, setData] = useState([]);
   const { state, dispatch } = useContext(UserContext);
-  // const [comments, setComments] = useState([]);
 
   // const [posts, setPosts] = useState([]);
+  console.log("state at Posts component", state);
 
   useEffect(() => {
+    console.log("useEffect Hook in Posts index component getting fired");
     axios({
       method: "GET",
       url: "/api/allposts",
@@ -25,12 +26,31 @@ function Posts() {
   }, []);
 
   console.log("post data at Posts index", data);
-  console.log("data.comments", data.comments);
   //data refers to the entire post data
+
+  const deletePost = (postId) => {
+    console.log("deletePost functionality triggered");
+    console.log("postId being passed through delete", postId);
+    axios({
+      method: "DELETE",
+      url: `/api/deletepost/${postId}`,
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    }).then((response) => {
+      console.log(response);
+      const newData = data.filter((post) => {
+        return post._id !== response.data._id;
+      });
+      console.log("newData", newData);
+      setData(newData);
+    });
+  };
+
+  console.log("data at Posts componenet", data);
 
   return (
     <div>
-      <h1>I am a post</h1>
       {data.map((post) => (
         <Post
           key={post._id}
@@ -39,9 +59,9 @@ function Posts() {
           userImg={post.postedBy.picture}
           img={post.image}
           caption={post.caption}
-          data={data}
-          setData={setData}
-          comments={data.comments}
+          data={post}
+          state={state}
+          deletePost={deletePost}
         />
       ))}
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import {
   BookmarkIcon,
@@ -7,6 +7,7 @@ import {
   EmojiHappyIcon,
   HeartIcon,
   PaperAirplaneIcon,
+  BackspaceIcon,
 } from "@heroicons/react/outline";
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
 import Moment from "react-moment";
@@ -18,14 +19,17 @@ export default function Post({
   userImg,
   img,
   caption,
-  comments,
   data,
-  setData,
+  state,
+  deletePost,
 }) {
   const [comment, setComment] = useState("");
-  const [likes, setLikes] = useState([]);
-  const [hasLiked, setHasLiked] = useState(false);
+  const [likes, setLikes] = useState(data.likes);
+  const [comments, setComments] = useState(data.comments);
 
+  //   console.log("state prop", state);
+  //   console.log("data prop", data);
+  //   console.log("likes state", likes);
   //   useEffect();
   //     () =>
   //       onSnapshot(
@@ -51,11 +55,52 @@ export default function Post({
   //     );
   //   }, [likes]
 
-  const likePost = async () => {
-    console.log("like post functionality");
+  const unlikePost = () => {
+    console.log("unlike post functionality");
+    axios({
+      method: "PUT",
+      url: "/api/unlike",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      data: JSON.stringify({ postId: id }),
+    })
+      .then((response) => {
+        console.log("response.data of setting unlike post", response.data);
+        setLikes(response.data.likes);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
   };
 
-  const sendComment = async (e) => {
+  const likePost = () => {
+    console.log("like post functionality triggered");
+    axios({
+      method: "PUT",
+      url: "/api/like",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      data: JSON.stringify({ postId: id }),
+    })
+      .then((response) => {
+        console.log("response.data of setting like post", response.data);
+        setLikes(response.data.likes);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  };
+
+  const sendComment = (e) => {
+    console.log("sendComment functionality triggered");
     e.preventDefault();
     axios({
       method: "PUT",
@@ -70,15 +115,11 @@ export default function Post({
       }),
     })
       .then((response) => {
-        console.log(response.data);
-        const newData = data.map((item) => {
-          if (item._id === response.data._id) {
-            return response.data;
-          } else {
-            return item;
-          }
-        });
-        setData(newData);
+        // console.log(
+        //   "response.data of send Comment",
+        //   response.data.addNewComment.comments
+        // );
+        setComments(response.data.addNewComment.comments);
         setComment("");
       })
       .catch((err) => {
@@ -99,7 +140,10 @@ export default function Post({
           className="rounded-full h-12 w-12 object-contain border p-1 mr-3"
         />
         <p className="flex-1 font-bold">{username}</p>
-        <DotsHorizontalIcon className="h-5" />
+        {/* <DotsHorizontalIcon className="h-5" /> */}
+        {data.postedBy._id === state._id && (
+          <BackspaceIcon className="h-5" onClick={() => deletePost(id)} />
+        )}
       </div>
 
       {/* img */}
@@ -109,8 +153,11 @@ export default function Post({
 
       <div className="flex justify-between px-4 pt-4">
         <div className="flex space-x-4">
-          {hasLiked ? (
-            <HeartIconFilled onClick={likePost} className="btn text-red-500" />
+          {likes.includes(state?._id) ? (
+            <HeartIconFilled
+              onClick={unlikePost}
+              className="btn text-red-500"
+            />
           ) : (
             <HeartIcon className="btn" onClick={likePost} />
           )}
@@ -123,7 +170,9 @@ export default function Post({
       {/* caption */}
       <p className="p-5 truncate">
         {likes.length > 0 && (
-          <p className="font-bold mb-1">{likes.length} likes</p>
+          <p className="font-bold mb-1">
+            {likes.length} {likes.length === 1 ? "like" : "likes"}
+          </p>
         )}
         <span className="font-bold mr-1">{username}</span>
         {caption}
@@ -131,9 +180,9 @@ export default function Post({
       {/* comments */}
       {
         /* comments */
-        data.comments.length > 0 && (
+        comments.length > 0 && (
           <div className="ml-10 h-20 overflow-y-scroll scrollbar-thumb-black scrollbar-thin">
-            {data.comments.map((comment) => (
+            {comments.map((comment) => (
               <div
                 key={comment._id}
                 className="flex items-center space-x-2 mb-3"

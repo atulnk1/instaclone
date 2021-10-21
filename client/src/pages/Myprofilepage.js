@@ -5,7 +5,7 @@ import SearchModal from "../components/Header/SearchModal";
 import MyProfile from "../components/MyProfile";
 // import UserContext from "../context/user";
 
-function Myprofile() {
+function Myprofilepage() {
   // const { state, dispatch } = useContext(UserContext);
 
   return (
@@ -20,4 +20,4 @@ function Myprofile() {
   );
 }
 
-export default Myprofile;
+export default Myprofilepage;

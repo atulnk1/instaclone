@@ -1,21 +1,15 @@
-import { Suspense, lazy, useReducer, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useHistory,
-  Redirect,
-} from "react-router-dom";
+import { Suspense, useReducer } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import * as ROUTES from "./constants/routes";
 import Spinner from "./components/Spinner";
 import { userReducer, initialState } from "./reducers/userReducer";
 import UserContext from "./context/user";
 import Login from "./pages/Login";
 import SignUp from "./pages/Sign-up";
-import NotFound from "./pages/Not-found";
+import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
-import Myprofile from "./pages/Myprofile";
+import Myprofilepage from "./pages/Myprofilepage";
 import ProtectedRoute from "./utils/protected-route";
 
 import { RecoilRoot } from "recoil";
@@ -57,7 +51,7 @@ export default function App() {
                 <SignUp />
               </Route>
               <ProtectedRoute user={state} exact path={ROUTES.MYPROFILE}>
-                <Myprofile />
+                <Myprofilepage />
               </ProtectedRoute>{" "}
               <ProtectedRoute user={state} exact path={ROUTES.PROFILE}>
                 <Profile />

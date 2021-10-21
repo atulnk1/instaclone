@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Header from "../components/Header";
 import Modal from "../components/Header/Modal";
-import SearchModal from "../components/Header/searchModal";
+import SearchModal from "../components/Header/SearchModal";
 import Profile from "../components/Profile";
 // import UserContext from "../context/user";
 

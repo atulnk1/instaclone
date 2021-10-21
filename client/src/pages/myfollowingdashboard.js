@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import Header from "../components/Header";
 import Modal from "../components/Header/Modal";
-import SearchModal from "../components/Header/searchModal";
-import MyFollowingFeed from "../components/Myfollowingfeed";
+import SearchModal from "../components/Header/SearchModal";
+import Myfollowingfeed from "../components/Myfollowingfeed";
 
 export default function MyFollowingDashboard() {
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function MyFollowingDashboard() {
       <Header />
 
       {/* Feed */}
-      <MyFollowingFeed />
+      <Myfollowingfeed />
 
       {/* Modal */}
       <Modal />

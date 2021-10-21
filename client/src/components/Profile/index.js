@@ -3,7 +3,7 @@ import axios from "axios";
 import ProfileHeader from "./Profile-header";
 import { useHistory, useParams } from "react-router-dom";
 import UserContext from "../../context/user";
-import Photos from "./photos";
+import Photos from "./Photos";
 import * as ROUTES from "../../constants/routes";
 
 function Profile() {

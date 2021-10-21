@@ -15,7 +15,7 @@ import SignUp from "./pages/Sign-up";
 import NotFound from "./pages/Not-found";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
-import MyProfile from "./pages/MyProfile";
+import Myprofile from "./pages/Myprofile";
 import ProtectedRoute from "./utils/protected-route";
 
 import { RecoilRoot } from "recoil";
@@ -57,7 +57,7 @@ export default function App() {
                 <SignUp />
               </Route>
               <ProtectedRoute user={state} exact path={ROUTES.MYPROFILE}>
-                <MyProfile />
+                <Myprofile />
               </ProtectedRoute>{" "}
               <ProtectedRoute user={state} exact path={ROUTES.PROFILE}>
                 <Profile />

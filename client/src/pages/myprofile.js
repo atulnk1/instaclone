@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import Header from "../components/Header";
 import Modal from "../components/Header/Modal";
-import SearchModal from "../components/Header/searchModal";
-import MyProfile from "../components/My-profile";
+import SearchModal from "../components/Header/SearchModal";
+import MyProfile from "../components/MyProfile";
 // import UserContext from "../context/user";
 
 function Myprofile() {

@@ -5,7 +5,7 @@ import Posts from "./Posts";
 import Sidebar from "./Sidebar";
 import MyFollowingPosts from "./MyFollowingPosts";
 
-function MyFollowingFeed() {
+function Myfollowingfeed() {
   const { state, dispatch } = useContext(UserContext);
 
   // console.log("state at Feed componenet", state);
@@ -37,4 +37,4 @@ function MyFollowingFeed() {
   );
 }
 
-export default MyFollowingFeed;
+export default Myfollowingfeed;

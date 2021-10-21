@@ -4,7 +4,7 @@ import Modal from "../components/Header/Modal";
 import SearchModal from "../components/Header/SearchModal";
 import Myfollowingfeed from "../components/Myfollowingfeed";
 
-export default function Myfollowingdashboard() {
+export default function MyFollowingDashboard() {
   useEffect(() => {
     document.title = "Instagram Clone";
   }, []);

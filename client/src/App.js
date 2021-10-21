@@ -11,7 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Myprofilepage from "./pages/Myprofilepage";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import MyFollowingDashboard from "./pages/MyFollowingDashboard";
+import { MyFollowingDashboard } from "./pages/MyFollowingDashboard";
 
 import { RecoilRoot } from "recoil";
 

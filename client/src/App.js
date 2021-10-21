@@ -10,7 +10,6 @@ import * as ROUTES from "./constants/routes";
 import Spinner from "./components/Spinner";
 import { userReducer, initialState } from "./reducers/userReducer";
 import UserContext from "./context/user";
-import ProtectedRouting from "./ProtectedRouting";
 import Login from "./pages/login";
 import SignUp from "./pages/sign-up";
 import NotFound from "./pages/not-found";
@@ -29,7 +28,6 @@ import MyFollowingDashboard from "./pages/myfollowingdashboard";
 // const NotFound = lazy(() => import("./pages/not-found"));
 
 export default function App() {
-  const history = useHistory();
   const [state, dispatch] = useReducer(userReducer, initialState);
 
   // console.log("state at App.js", state);

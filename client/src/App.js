@@ -11,15 +11,15 @@ import Spinner from "./components/Spinner";
 import { userReducer, initialState } from "./reducers/userReducer";
 import UserContext from "./context/user";
 import Login from "./pages/Login";
-import SignUp from "./pages/sign-up";
-import NotFound from "./pages/not-found";
-import Dashboard from "./pages/dashboard";
-import Profile from "./pages/profile";
-import MyProfile from "./pages/myprofile";
+import SignUp from "./pages/Sign-up";
+import NotFound from "./pages/Not-found";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
+import MyProfile from "./pages/Myprofile";
 import ProtectedRoute from "./utils/protected-route";
 
 import { RecoilRoot } from "recoil";
-import MyFollowingDashboard from "./pages/myfollowingdashboard";
+import MyFollowingDashboard from "./pages/Myfollowingdashboard";
 
 // const Login = lazy(() => import("./pages/login"));
 // const SignUp = lazy(() => import("./pages/sign-up"));

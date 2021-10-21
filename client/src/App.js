@@ -10,7 +10,7 @@ import * as ROUTES from "./constants/routes";
 import Spinner from "./components/Spinner";
 import { userReducer, initialState } from "./reducers/userReducer";
 import UserContext from "./context/user";
-import Login from "./pages/login";
+import Login from "./pages/Login";
 import SignUp from "./pages/sign-up";
 import NotFound from "./pages/not-found";
 import Dashboard from "./pages/dashboard";

@@ -11,7 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Myprofilepage from "./pages/Myprofilepage";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import { MyFollowingDashboard } from "./pages/MyFollowingDashboard";
+import { MyFollowingDashboardPage } from "./pages/MyFollowingDashboardPage";
 
 import { RecoilRoot } from "recoil";
 
@@ -64,7 +64,7 @@ export default function App() {
                 path={ROUTES.MYFOLLOWINGDASHBOARD}
                 exact
               >
-                <MyFollowingDashboard />
+                <MyFollowingDashboardPage />
               </ProtectedRoute>
               <Route>
                 <NotFound />

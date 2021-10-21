@@ -17,8 +17,10 @@ import NotFound from "./pages/not-found";
 import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
 import MyProfile from "./pages/myprofile";
+import ProtectedRoute from "./utils/protected-route";
 
 import { RecoilRoot } from "recoil";
+import MyFollowingDashboard from "./pages/myfollowingdashboard";
 
 // const Login = lazy(() => import("./pages/login"));
 // const SignUp = lazy(() => import("./pages/sign-up"));
@@ -30,7 +32,7 @@ export default function App() {
   const history = useHistory();
   const [state, dispatch] = useReducer(userReducer, initialState);
 
-  console.log("state at App.js", state);
+  // console.log("state at App.js", state);
 
   // useEffect(() => {
   //   if (!state && !history.location.pathname.startsWith(ROUTES.RESET))
@@ -39,7 +41,7 @@ export default function App() {
   //   export const DASHBOARD = "/";
   // export const LOGIN = "/login";
   // export const SIGN_UP = "/sign-up";
-  // export const PROFILE = "/profile/:username";
+  // export const PROFILE = "/profile/:userId";
   // export const NOT_FOUND = "/not-found";
   // export const MYPROFILE = "/profile";
   // export const RESET = "/reset";
@@ -56,17 +58,23 @@ export default function App() {
               <Route exact path={ROUTES.SIGN_UP}>
                 <SignUp />
               </Route>
-              <Route path={ROUTES.PROFILE}>
-                <Profile />
-              </Route>
-              <Route exact path={ROUTES.DASHBOARD}>
-                <Dashboard />
-              </Route>
-              <Route exact path={ROUTES.MYPROFILE}>
+              <ProtectedRoute user={state} exact path={ROUTES.MYPROFILE}>
                 <MyProfile />
-              </Route>
-              {/* <ProtectedRouting /> */}
-              <Route exact path={ROUTES.NOT_FOUND}>
+              </ProtectedRoute>{" "}
+              <ProtectedRoute user={state} exact path={ROUTES.PROFILE}>
+                <Profile />
+              </ProtectedRoute>
+              <ProtectedRoute user={state} path={ROUTES.DASHBOARD} exact>
+                <Dashboard />
+              </ProtectedRoute>
+              <ProtectedRoute
+                user={state}
+                path={ROUTES.MYFOLLOWINGDASHBOARD}
+                exact
+              >
+                <MyFollowingDashboard />
+              </ProtectedRoute>
+              <Route>
                 <NotFound />
               </Route>
             </Switch>

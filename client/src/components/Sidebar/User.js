@@ -23,13 +23,12 @@ export default function User({ name, picture, handleLogout }) {
         <h3 className="text-sm text-gray-400">Welcome to Instagram</h3>
       </div>
 
-      <a
-        href={ROUTES.LOGIN}
+      <button
         className="text-blue-400 text-sm-font-semibold"
         onClick={handleLogout}
       >
         Sign Out
-      </a>
+      </button>
     </div>
   );
 }

@@ -3,8 +3,9 @@ import UserContext from "../context/user";
 import Stories from "./Stories";
 import Posts from "./Posts";
 import Sidebar from "./Sidebar";
+import MyFollowingPosts from "./MyFollowingPosts";
 
-function Feed() {
+function MyFollowingFeed() {
   const { state, dispatch } = useContext(UserContext);
 
   // console.log("state at Feed componenet", state);
@@ -20,7 +21,7 @@ function Feed() {
         <Stories state={state} />
 
         {/* Posts */}
-        <Posts />
+        <MyFollowingPosts />
       </section>
 
       {state && (
@@ -36,4 +37,4 @@ function Feed() {
   );
 }
 
-export default Feed;
+export default MyFollowingFeed;

@@ -1,11 +1,5 @@
 export const initialState = JSON.parse(localStorage.getItem("user"));
-// {
-// name: "",
-// email: "",
-// followers: [],
-// following: [],
-// picture: "",
-// };
+//State here refers to the user object that is set in the local storage - returns null if no user is set
 
 export const userReducer = (state, action) => {
   switch (action.type) {
@@ -15,13 +9,14 @@ export const userReducer = (state, action) => {
       return null;
     case "UPDATE":
       return {
+        ...state,
         followers: action.payload.followers,
         following: action.payload.following,
       };
     case "UPDATEPIC":
       return {
         ...state,
-        profilePhoto: action.payload,
+        picture: action.payload,
       };
     default:
       return state;

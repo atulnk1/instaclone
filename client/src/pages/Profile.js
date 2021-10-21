@@ -1,34 +1,23 @@
-// import { useParams, useHistory } from "react-router-dom";
-// import { useState, useEffect } from "react";
-// import { getUserByUsername } from "../services/firebase";
-// import * as ROUTES from "../constants/routes";
-// import Header from "../components/header";
-// import UserProfile from "../components/profile";
+import React, { useContext } from "react";
+import Header from "../components/Header";
+import Modal from "../components/Header/Modal";
+import SearchModal from "../components/Header/searchModal";
+import Profile from "../components/Profile";
+// import UserContext from "../context/user";
 
-// export default function Profile() {
-//   const { username } = useParams();
-//   const [user, setUser] = useState(null);
-//   const history = useHistory();
+function Myprofile() {
+  // const { state, dispatch } = useContext(UserContext);
 
-//   useEffect(() => {
-//     async function checkUserExists() {
-//       const [user] = await getUserByUsername(username);
-//       if (user?.userId) {
-//         setUser(user);
-//       } else {
-//         history.push(ROUTES.NOT_FOUND);
-//       }
-//     }
+  return (
+    <div>
+      <Header />
+      <div className="mx-auto my-8 max-w-screen-lg">
+        <Profile />
+        <Modal />
+        <SearchModal />
+      </div>
+    </div>
+  );
+}
 
-//     checkUserExists();
-//   }, [username, history]);
-
-//   return user?.username ? (
-//     <div className="bg-gray-background">
-//       <Header />
-//       <div className="mx-auto max-w-screen-lg">
-//         <UserProfile user={user} />
-//       </div>
-//     </div>
-//   ) : null;
-// }
+export default Myprofile;

@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import Feed from "../components/Feed";
 import Header from "../components/Header";
 import Modal from "../components/Header/Modal";
 import SearchModal from "../components/Header/searchModal";
+import MyFollowingFeed from "../components/Myfollowingfeed";
 
-export default function Dashboard() {
+export default function MyFollowingDashboard() {
   useEffect(() => {
     document.title = "Instagram Clone";
   }, []);
@@ -16,7 +16,7 @@ export default function Dashboard() {
       <Header />
 
       {/* Feed */}
-      <Feed />
+      <MyFollowingFeed />
 
       {/* Modal */}
       <Modal />

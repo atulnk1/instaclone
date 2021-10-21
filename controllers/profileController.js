@@ -200,51 +200,53 @@ controller.put(
 );
 
 // GET SUGGESTED PROFILES FOR A PARTICULAR USER
-controller.get("/recommended-users", passport.authenticate("jwt", { session: false }), async (req, res) => {
+controller.get(
+  "/recommended-users",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
     try {
-        // Get a list of the following users for the logged in user
-        const listOfFollowing = await User.findById(
-            req.user._id,
-            "following -_id",
+      // Get a list of the following users for the logged in user
+      const listOfFollowing = await User.findById(
+        req.user._id,
+        "following -_id"
+      );
+      // Set a new list that only contains an array for following ids, this is to be used for the next query
+      const newListOfFollowing = listOfFollowing.following;
+      // console.log(newListOfFollowing)
 
-        );
-        // Set a new list that only contains an array for following ids, this is to be used for the next query
-        const newListOfFollowing = listOfFollowing.following
-        // console.log(newListOfFollowing)
-
-        // Find the list of users that the logged in is not following and don't include the users only id. Return first ten
-        const listToRecommend = await User.find(
+      // Find the list of users that the logged in is not following and don't include the users only id. Return first ten
+      const listToRecommend = await User.find(
+        {
+          $and: [
             {
-                $and: [
-                    {
-                        _id: {
-                            $nin: newListOfFollowing
-                        }
-                    },
-                    {
-                        _id: { 
-                            $ne: req.user._id
-                        }
-                    }
-                ]
+              _id: {
+                $nin: newListOfFollowing,
+              },
             },
-            "-password"
-        )
-        .limit(10);
-        if(listToRecommend) {
-            return res.json(listToRecommend);
-        } else {
-            return res.status(422).json({
-                error: "Sorry, no one to recommend",
-            }); 
-        }
-    } catch (e) {
-        return res.status(400).json({
-          name: e.name,
-          message: e.message,
+            {
+              _id: {
+                $ne: req.user._id,
+              },
+            },
+          ],
+        },
+        "-password"
+      ).limit(10);
+      if (listToRecommend) {
+        return res.json(listToRecommend);
+      } else {
+        return res.status(422).json({
+          error: "Sorry, no one to recommend",
         });
+      }
+    } catch (e) {
+      return res.status(400).json({
+        name: e.name,
+        message: e.message,
+      });
     }
-});
+  }
+);
 
 // SEARCH USER END POINT
 controller.post(
@@ -263,7 +265,7 @@ controller.post(
           },
         ],
       },
-      "_id name email"
+      "_id name email picture"
     );
     if (!foundUsers) {
       return res.status(422).json({ error: "Sorry, no user found." });

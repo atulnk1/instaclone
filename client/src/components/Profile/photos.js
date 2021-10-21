@@ -1,20 +1,25 @@
 // axios in all my posts, use CSS grid to formulate the posts
 import Skeleton from "react-loading-skeleton";
 
-export default function Photos({ photos }) {
+export default function Photos({ userProfile }) {
+  // console.log(
+  //   "userProfile at the photos component of other user Profile",
+  //   userProfile
+  // );
+
   return (
     <div className="h-16 border-t border-gray-primary mt-12 px-4 lg:px-0">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4 mb-12">
-        {!photos ? (
+        {!userProfile ? (
           <>
-            <Skeleton count={12} width={320} height={400} />
+            <Skeleton count={1} width={320} height={400} />
           </>
-        ) : photos.length > 0 ? (
-          photos.map((photo) => (
-            <div key={photo.docId} className="relative group">
-              <img src={photo.imageSrc} alt={photo.caption} />
+        ) : userProfile.findPosts.length > 0 ? (
+          userProfile.findPosts.map((post) => (
+            <div key={post._id} className="relative group">
+              <img src={post.image} alt={post.caption} />
 
-              <div className="absolute bottom-0 left-0 bg-gray-200 z-10 w-full justify-evenly items-center h-full bg-black-faded group-hover:flex hidden">
+              <div className="absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full bg-black-faded group-hover:flex hidden">
                 <p className="flex items-center text-white font-bold">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +33,7 @@ export default function Photos({ photos }) {
                       clipRule="evenodd"
                     />
                   </svg>
-                  {photo.likes.length}
+                  {post.likes.length}
                 </p>
 
                 <p className="flex items-center text-white font-bold">
@@ -44,7 +49,7 @@ export default function Photos({ photos }) {
                       clipRule="evenodd"
                     />
                   </svg>
-                  {photo.comments.length}
+                  {post.comments.length}
                 </p>
               </div>
             </div>
@@ -52,8 +57,8 @@ export default function Photos({ photos }) {
         ) : null}
       </div>
 
-      {!photos ||
-        (photos.length === 0 && (
+      {!userProfile ||
+        (userProfile.findPosts.length === 0 && (
           <p className="text-center text-2xl">No Posts Yet</p>
         ))}
     </div>

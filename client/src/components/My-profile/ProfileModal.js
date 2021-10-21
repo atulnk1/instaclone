@@ -8,50 +8,53 @@ import React, {
 import { useRecoilState } from "recoil";
 import { Dialog, Transition } from "@headlessui/react";
 import { CameraIcon } from "@heroicons/react/outline";
-import { modalState } from "../../atoms/modalAtom";
-import { postDataState } from "../../atoms/modalAtom";
+import { profileModalState } from "../../atoms/modalAtom";
 import UserContext from "../../context/user";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
 
-function Modal() {
+function ProfileModal() {
   const history = useHistory();
   const { state, dispatch } = useContext(UserContext);
-  const [open, setOpen] = useRecoilState(modalState);
-  const [data, setData] = useRecoilState(postDataState);
+  const [open, setOpen] = useRecoilState(profileModalState);
   const filePickerRef = useRef(null);
-  const captionRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
 
   //   console.log("state", state);
-  // console.log("post data at Modal state", data);
+
   //After posting image to cloud, image url updated above, send entire post to "/createpost"
   useEffect(() => {
     if (url) {
       axios({
-        method: "POST",
-        url: "/api/newpost",
+        method: "PUT",
+        url: "/api/updatepicture",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("jwt"),
           //Note that we stored the jwt token in localstorage when user signed in
         },
         data: {
-          caption: captionRef.current.value,
-          image: url,
+          picture: url,
         },
       })
         .then((response) => {
-          // console.log(response.data);
-          setData([response.data.post, ...data]);
+          console.log(
+            "I am making a PUT request to change my profile photo",
+            response.data
+          );
+          localStorage.setItem(
+            "user",
+            JSON.stringify({ ...state, picture: response.data.picture })
+          );
+          dispatch({ type: "UPDATEPIC", payload: response.data.picture });
           setOpen(false);
           setLoading(false);
           setSelectedFile(null);
-          history.push(ROUTES.DASHBOARD);
+          history.push(ROUTES.MYPROFILE);
         })
         .catch((error) => {
           console.log(error.response.data);
@@ -63,7 +66,7 @@ function Modal() {
     //post the image to cloudinary, and then the useEffect above will take care of uploading the entire post to database
     // Posting image to cloudinary (separate from DB) - you only want to save the image URL in the DB,
     // and only if there is a title and body
-    if (!captionRef.current.value.trim() || !selectedFile) {
+    if (!selectedFile) {
       setError("Please fill in the relevant fields");
       return;
     }
@@ -77,7 +80,10 @@ function Modal() {
       url: "https://api.cloudinary.com/v1_1/darrylwongqz/image/upload",
       data: formData,
     })
-      .then((response) => setUrl(response.data.secure_url))
+      .then((response) => {
+        console.log("Server response to uploading profile photo", response);
+        setUrl(response.data.secure_url);
+      })
       .catch((error) => console.log(error.response.data.error));
   };
 
@@ -155,7 +161,7 @@ function Modal() {
                       as="h3"
                       className="text-lg leading-6 font-medium text-gray-900"
                     >
-                      Upload a photo
+                      Upload a new profile photo
                       {error && (
                         <p
                           data-testid="error"
@@ -174,15 +180,6 @@ function Modal() {
                         onChange={addImageToPost}
                       />
                     </div>
-
-                    <div className="mt-2">
-                      <input
-                        className="border-none focus:ring-0 w-full text-center"
-                        type="text"
-                        ref={captionRef}
-                        placeholder="Please enter a caption..."
-                      />
-                    </div>
                   </div>
                 </div>
 
@@ -193,7 +190,7 @@ function Modal() {
                     className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed hover:disabled:bg-gray-300"
                     onClick={uploadPost}
                   >
-                    {loading ? "Uploading..." : "Upload Post"}
+                    {loading ? "Uploading..." : "Upload Photo"}
                   </button>
                 </div>
               </div>
@@ -205,4 +202,4 @@ function Modal() {
   );
 }
 
-export default Modal;
+export default ProfileModal;

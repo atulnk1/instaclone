@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { postDataState } from "../../atoms/modalAtom";
 import Post from "./Post";
 
-function Posts() {
+function MyFollowingPosts() {
   const [data, setData] = useRecoilState(postDataState);
   const { state, dispatch } = useContext(UserContext);
 
@@ -13,16 +13,19 @@ function Posts() {
   // console.log("state at Posts component", state);
 
   useEffect(() => {
-    // console.log("useEffect Hook in Posts index component getting fired");
+    console
+      .log
+      // "useEffect Hook in myfollowingposts Posts index component getting fired"
+      ();
     axios({
       method: "GET",
-      url: "/api/allposts",
+      url: "/api/followingposts",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((response) => {
-      // console.log(`all post api call response`, response);
-      setData(response.data.posts);
+      // console.log(`my following post api call response`, response);
+      setData(response.data.followingPost);
     });
   }, []);
 
@@ -39,8 +42,8 @@ function Posts() {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((response) => {
-      // console.log(response);
-      // console.log(data);
+      console.log(response);
+      console.log(data);
       const newData = data.filter((post) => {
         return post._id !== postId;
       });
@@ -71,4 +74,4 @@ function Posts() {
   );
 }
 
-export default Posts;
+export default MyFollowingPosts;

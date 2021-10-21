@@ -1,42 +1,55 @@
-// import { useReducer, useEffect } from "react";
-// import ProfileHeader from "./profile-header";
-// import Photos from "./photos";
-// import { getUserPhotosByUsername } from "../../services/firebase";
+import React, { useState, useLayoutEffect, useEffect, useContext } from "react";
+import axios from "axios";
+import ProfileHeader from "./Profile-header";
+import { useHistory, useParams } from "react-router-dom";
+import UserContext from "../../context/user";
+import Photos from "./photos";
+import * as ROUTES from "../../constants/routes";
 
-// export default function Profile({ user }) {
-//   const reducer = (state, newState) => ({ ...state, ...newState });
-//   const initialState = {
-//     profile: {},
-//     photosCollection: [],
-//     followerCount: 0,
-//   };
+function Profile() {
+  const [userProfile, setUserProfile] = useState(null);
+  const { userId } = useParams();
+  const { state, dispatch } = useContext(UserContext);
+  const history = useHistory();
 
-//   const [{ profile, photosCollection, followerCount }, dispatch] = useReducer(
-//     reducer,
-//     initialState
-//   );
+  console.log("state at other user profile index page", state);
 
-//   useEffect(() => {
-//     async function getProfileInfoAndPhotos() {
-//       const photos = await getUserPhotosByUsername(user.username);
-//       dispatch({
-//         profile: user,
-//         photosCollection: photos,
-//         followerCount: user.followers.length,
-//       });
-//     }
-//     getProfileInfoAndPhotos();
-//   }, [user.username]);
+  useLayoutEffect(() => {
+    console.log("useLayoutEffect to redirect to myprofile page fired");
+    if (userId === state._id) history.push(ROUTES.MYPROFILE);
+  }, []);
 
-//   return (
-//     <>
-//       <Header
-//         photosCount={photosCollection ? photosCollection.length : 0}
-//         profile={profile}
-//         followerCount={followerCount}
-//         setFollowerCount={dispatch}
-//       />
-//       <Photos photos={photosCollection} />
-//     </>
-//   );
-// }
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: `/api/profile/${userId}`,
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    }).then((response) => {
+      console.log("/mypostsapireponse", response.data);
+      setUserProfile(response.data);
+    });
+  }, []);
+  console.log(
+    "userProfile from GET request from /api/profile/:userId",
+    userProfile
+  );
+
+  return (
+    <>
+      {/* Header - props to pass: photos collection -for length, name, picture, followers array, following array */}
+      <ProfileHeader
+        userProfile={userProfile}
+        setUserProfile={setUserProfile}
+        state={state}
+        dispatch={dispatch}
+        userId={userId}
+      />
+      {/* photos */}
+      <Photos userProfile={userProfile} />
+    </>
+  );
+}
+
+export default Profile;

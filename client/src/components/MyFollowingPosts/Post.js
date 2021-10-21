@@ -42,7 +42,7 @@ export default function Post({
       data: JSON.stringify({ postId: id }),
     })
       .then((response) => {
-        // console.log("response.data of setting unlike post", response.data);
+        console.log("response.data of setting unlike post", response.data);
         setLikes(response.data.likes);
       })
       .catch((err) => {
@@ -64,7 +64,7 @@ export default function Post({
       data: JSON.stringify({ postId: id }),
     })
       .then((response) => {
-        // console.log("response.data of setting like post", response.data);
+        console.log("response.data of setting like post", response.data);
         setLikes(response.data.likes);
       })
       .catch((err) => {

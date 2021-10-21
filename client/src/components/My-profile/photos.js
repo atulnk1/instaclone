@@ -2,7 +2,7 @@
 import Skeleton from "react-loading-skeleton";
 
 export default function Photos({ myPosts = [] }) {
-  console.log("myPosts at photos level", myPosts.myPosts);
+  // console.log("myPosts at photos level", myPosts.myPosts);
   // const result = myPosts.myPosts.map((posts) => posts.image);
   // console.log("result at photos", result);
 
@@ -11,7 +11,7 @@ export default function Photos({ myPosts = [] }) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4 mb-12">
         {!myPosts.myPosts ? (
           <>
-            <Skeleton count={12} width={320} height={400} />
+            <Skeleton count={1} width={320} height={400} />
           </>
         ) : myPosts.myPosts.length > 0 ? (
           myPosts.myPosts.map((post) => (

@@ -12,14 +12,14 @@ import { Link, useHistory } from "react-router-dom";
 import UserContext from "../../context/user";
 import * as ROUTES from "../../constants/routes";
 import { useRecoilState } from "recoil";
-import { modalState } from "../../atoms/modalAtom";
+import { modalState, searchModalState } from "../../atoms/modalAtom";
 
 function Header() {
   const history = useHistory();
   const { state, dispatch } = useContext(UserContext);
   const [open, setOpen] = useRecoilState(modalState);
-
-  //   console.log("state", state);
+  const [searchModalOpen, setSearchModalOpen] =
+    useRecoilState(searchModalState);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -60,9 +60,12 @@ function Header() {
               <SearchIcon className="h-5 w-5 text-gray-500" />
             </div>
             <input
-              className="bg-gray-50 block w-full pl-10 sm:text-sm border-gray-300 focus:ring-black focus:border-black rounded-md"
+              className="bg-gray-50 block w-full pl-10 sm:text-sm border-gray-300 focus:ring-black focus:border-black rounded-md text-gray-700"
               type="text"
               placeholder="Search"
+              // value="Search"
+              // onChange={(e) => fetchUsers(e.target.value)}
+              onClick={() => setSearchModalOpen(true)}
             />
           </div>
         </div>
@@ -79,8 +82,8 @@ function Header() {
             }}
             className="navBtn"
           />
-          <Link to={ROUTES.NOT_FOUND}>
-            <GlobeIcon className="navBtn" />
+          <Link to={ROUTES.MYFOLLOWINGDASHBOARD}>
+            <UserGroupIcon className="navBtn" />
           </Link>
 
           {/* <a href={ROUTES.LOGIN}></a> */}

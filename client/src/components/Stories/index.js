@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import faker from "faker";
 import Story from "./Story";
+import { Link } from "react-router-dom";
+import * as ROUTES from "../../constants/routes";
 
-function Stories() {
+function Stories({ state }) {
   const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
@@ -16,9 +18,11 @@ function Stories() {
 
   return (
     <div className="flex space-x-2 p-6 bg-white mt-8 border-gray-200 border rounded-sm overflow-x-scroll scrollbar-thin scrollbar-thumb-black">
-      {/* {session && (
-        <Story img={session.user.image} username={session.user.username} />
-      )} */}
+      {state && (
+        <Link to={ROUTES.MYPROFILE}>
+          <Story img={state.picture} username={state.name} />
+        </Link>
+      )}
 
       {suggestions.map((profile) => (
         <Story

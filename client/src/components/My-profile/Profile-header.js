@@ -1,12 +1,22 @@
 import React, { useContext } from "react";
 import Skeleton from "react-loading-skeleton";
 import * as ROUTES from "../../constants/routes";
+import { useRecoilState } from "recoil";
 import UserContext from "../../context/user";
+import { PencilIcon } from "@heroicons/react/outline";
+import { profileModalState } from "../../atoms/modalAtom";
 
-function ProfileHeader() {
+function ProfileHeader({ photosCount }) {
   const { state, dispatch } = useContext(UserContext);
+  const [open, setOpen] = useRecoilState(profileModalState);
 
-  console.log("state at profile-header", state);
+  // console.log("myPosts at profile header", myPosts.myPosts);
+
+  // console.log("state at profile-header", state);
+
+  const updatePhoto = () => {
+    setOpen(true);
+  };
 
   return (
     <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg">
@@ -28,6 +38,12 @@ function ProfileHeader() {
       <div className="flex items-center justify-center flex-col col-span-2">
         <div className="container flex items-center">
           <p className="text-2xl mr-4">{state?.name}</p>
+          <button>
+            <PencilIcon
+              className="font-bold text-sm rounded text-gray-800 w-5 h-8"
+              onClick={updatePhoto}
+            />
+          </button>
           {/* {activeBtnFollow && (
           <button
             className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
@@ -49,7 +65,7 @@ function ProfileHeader() {
           ) : (
             <>
               <p className="mr-10">
-                <span className="font-bold">5</span> photos
+                <span className="font-bold">{photosCount}</span> photos
               </p>
               <p className="mr-10">
                 <span className="font-bold">{state.followers.length}</span>

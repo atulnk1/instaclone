@@ -5,7 +5,7 @@ import Spinner from "./components/Spinner";
 import { userReducer, initialState } from "./reducers/userReducer";
 import UserContext from "./context/user";
 import Login from "./pages/Login";
-import SignUp from "./pages/Sign-up";
+import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";

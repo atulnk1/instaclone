@@ -15,7 +15,7 @@ import SignUp from "./pages/Sign-up";
 import NotFound from "./pages/Not-found";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
-import MyProfile from "./pages/Myprofile";
+import MyProfile from "./pages/MyProfile";
 import ProtectedRoute from "./utils/protected-route";
 
 import { RecoilRoot } from "recoil";

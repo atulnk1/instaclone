@@ -10,10 +10,10 @@ import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Myprofilepage from "./pages/Myprofilepage";
-import ProtectedRoute from "./utils/protected-route";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 import { RecoilRoot } from "recoil";
-import MyFollowingDashboard from "./pages/Myfollowingdashboard";
+import Myfollowingdashboard from "./pages/Myfollowingdashboard";
 
 // const Login = lazy(() => import("./pages/login"));
 // const SignUp = lazy(() => import("./pages/sign-up"));
@@ -64,7 +64,7 @@ export default function App() {
                 path={ROUTES.MYFOLLOWINGDASHBOARD}
                 exact
               >
-                <MyFollowingDashboard />
+                <Myfollowingdashboard />
               </ProtectedRoute>
               <Route>
                 <NotFound />

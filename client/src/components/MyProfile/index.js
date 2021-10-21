@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import ProfileHeader from "./Profile-header";
+import ProfileHeader from "./ProfileHeader";
 import { useHistory } from "react-router-dom";
 import UserContext from "../../context/user";
-import Photos from "./Photos";
+import PhotosCollection from "./PhotosCollection";
 import ProfileModal from "./ProfileModal";
 
 function MyProfile() {
@@ -36,7 +36,7 @@ function MyProfile() {
         photosCount={myPosts.myPosts ? myPosts.myPosts.length : 0}
       />
       {/* photos */}
-      <Photos myPosts={myPosts} />
+      <PhotosCollection myPosts={myPosts} />
       <ProfileModal />
     </>
   );

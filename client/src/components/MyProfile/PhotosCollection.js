@@ -1,21 +1,20 @@
 // axios in all my posts, use CSS grid to formulate the posts
 import Skeleton from "react-loading-skeleton";
 
-export default function Photos({ userProfile }) {
-  // console.log(
-  //   "userProfile at the photos component of other user Profile",
-  //   userProfile
-  // );
+export default function PhotosCollection({ myPosts = [] }) {
+  // console.log("myPosts at photos level", myPosts.myPosts);
+  // const result = myPosts.myPosts.map((posts) => posts.image);
+  // console.log("result at photos", result);
 
   return (
     <div className="h-16 border-t border-gray-primary mt-12 px-4 lg:px-0">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4 mb-12">
-        {!userProfile ? (
+        {!myPosts.myPosts ? (
           <>
             <Skeleton count={1} width={320} height={400} />
           </>
-        ) : userProfile.findPosts.length > 0 ? (
-          userProfile.findPosts.map((post) => (
+        ) : myPosts.myPosts.length > 0 ? (
+          myPosts.myPosts.map((post) => (
             <div key={post._id} className="relative group">
               <img src={post.image} alt={post.caption} />
 
@@ -57,8 +56,8 @@ export default function Photos({ userProfile }) {
         ) : null}
       </div>
 
-      {!userProfile ||
-        (userProfile.findPosts.length === 0 && (
+      {!myPosts.myPosts ||
+        (myPosts.myPosts.length === 0 && (
           <p className="text-center text-2xl">No Posts Yet</p>
         ))}
     </div>

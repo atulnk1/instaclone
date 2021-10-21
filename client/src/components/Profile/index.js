@@ -1,9 +1,9 @@
 import React, { useState, useLayoutEffect, useEffect, useContext } from "react";
 import axios from "axios";
-import ProfileHeader from "./Profile-header";
+import ProfileHeader from "./ProfileHeader";
 import { useHistory, useParams } from "react-router-dom";
 import UserContext from "../../context/user";
-import Photos from "./Photos";
+import PhotosCollection from "./PhotosCollection";
 import * as ROUTES from "../../constants/routes";
 
 function Profile() {
@@ -47,7 +47,7 @@ function Profile() {
         userId={userId}
       />
       {/* photos */}
-      <Photos userProfile={userProfile} />
+      <PhotosCollection userProfile={userProfile} />
     </>
   );
 }

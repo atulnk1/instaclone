@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Header from "../components/Header";
 import Modal from "../components/Header/Modal";
-import SearchModal from "../components/Header/SearchModal";
+import SearchingModal from "../components/Header/SearchingModal";
 import Myfollowingfeed from "../components/Myfollowingfeed";
 
 export function MyFollowingDashboardPage() {
@@ -20,7 +20,7 @@ export function MyFollowingDashboardPage() {
 
       {/* Modal */}
       <Modal />
-      <SearchModal />
+      <SearchingModal />
     </div>
   );
 }

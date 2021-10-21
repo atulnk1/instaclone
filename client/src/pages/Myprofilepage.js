@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Header from "../components/Header";
 import Modal from "../components/Header/Modal";
-import SearchModal from "../components/Header/SearchModal";
+import SearchingModal from "../components/Header/SearchingModal";
 import MyProfile from "../components/MyProfile";
 // import UserContext from "../context/user";
 
@@ -14,7 +14,7 @@ function Myprofilepage() {
       <div className="mx-auto my-8 max-w-screen-lg">
         <MyProfile />
         <Modal />
-        <SearchModal />
+        <SearchingModal />
       </div>
     </div>
   );

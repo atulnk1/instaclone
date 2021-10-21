@@ -14,7 +14,7 @@ import axios from "axios";
 import { useHistory, Link } from "react-router-dom";
 import { CameraIcon, SearchIcon } from "@heroicons/react/outline";
 
-function SearchModal() {
+export default function SearchingModal() {
   const history = useHistory();
   const { state, dispatch } = useContext(UserContext);
   const [open, setOpen] = useRecoilState(searchModalState);
@@ -145,5 +145,3 @@ function SearchModal() {
     </Transition.Root>
   );
 }
-
-export default SearchModal;

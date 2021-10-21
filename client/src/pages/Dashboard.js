@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Feed from "../components/Feed";
 import Header from "../components/Header";
 import Modal from "../components/Header/Modal";
-import SearchModal from "../components/Header/SearchModal";
+import SearchingModal from "../components/Header/SearchingModal";
 
 export default function Dashboard() {
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function Dashboard() {
 
       {/* Modal */}
       <Modal />
-      <SearchModal />
+      <SearchingModal />
     </div>
   );
 }

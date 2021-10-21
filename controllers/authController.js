@@ -24,7 +24,16 @@ const emailNewUser = (newUserEmail) => {
     to: newUserEmail,
     from: "atulnk1@gmail.com",
     subject: "Welcome to InstaClone!",
-    html: "<h1>Welcome to InstaClone</h1>",
+    html: `<h1>Welcome to InstaClone!</h1>
+    <h3>Find out more about the what people are doing around you!</h3>
+    <h4>With InstaClone, you can:</h4>
+    <ul>
+    <li>Create posts</li>
+    <li>See what everyone else is posting</li>
+    <li>Follow your favourite influencers</li>
+    <li>Like the posts that interest you</li>
+    <li>Comment on other people posts</li>
+    </ul>`,
   });
 };
 // Helper function to send the password reset email

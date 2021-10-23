@@ -7,7 +7,7 @@ const Post = require("../models/post");
 // SHOW ALL POSTS
 
 controller.get(
-  "/allposts",
+  "/posts/all",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -24,7 +24,7 @@ controller.get(
         ])
         .sort("-updatedAt");
       // returns list of all posts currently available on the app
-      res.json({ posts });
+      res.json(posts);
     } catch (e) {
       return res.status(400).json({
         name: e.name,
@@ -36,7 +36,7 @@ controller.get(
 
 // GET ALL POSTS FOR THE PEOPLE YOU FOLLOW
 controller.get(
-  "/followingposts",
+  "/posts/following",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -63,7 +63,7 @@ controller.get(
             "Something went wrong when fetching your follow list. Please try again later.",
         });
       } else {
-        res.json({ followingPost });
+        res.json(followingPost);
       }
     } catch (e) {
       return res.status(400).json({
@@ -77,11 +77,11 @@ controller.get(
 // GET ALL POSTS FOR A PARTICULAR USER
 
 controller.get(
-  "/myposts",
+  "/posts/myposts",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      console.log(req.user._id);
+      // console.log(req.user._id);
       const myPosts = await Post.find({ postedBy: req.user._id }).populate([
         {
           path: "postedBy",
@@ -89,7 +89,7 @@ controller.get(
         },
       ]);
       // Return list of posts associated to the user who is currently using the app
-      return res.json({ myPosts });
+      return res.json(myPosts);
     } catch (e) {
       return res.status(400).json({
         name: e.name,
@@ -101,7 +101,7 @@ controller.get(
 
 // CREATE NEW POST
 controller.post(
-  "/newpost",
+  "/posts/create",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -124,7 +124,7 @@ controller.post(
 
         const post = await Post.create(inputs);
         // returns new post object to the requester after successful post
-        return res.json({ post });
+        return res.json(post);
       } catch (e) {
         return res.status(400).json({
           name: e.name,
@@ -142,7 +142,7 @@ controller.post(
 
 // LIKE A POST
 controller.put(
-  "/like",
+  "/posts/like",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -178,7 +178,7 @@ controller.put(
 
 // REMOVE LIKE FROM POST
 controller.put(
-  "/unlike",
+  "/posts/unlike",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -214,7 +214,7 @@ controller.put(
 
 // COMMENT ROUTE
 controller.put(
-  "/comment",
+  "/posts/comment",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -246,7 +246,7 @@ controller.put(
 
       if (addNewComment) {
         // returns the comment, the name, id and picture of commenter
-        return res.json({ addNewComment });
+        return res.json(addNewComment);
       } else {
         return res.status(422).json({
           error:
@@ -264,11 +264,11 @@ controller.put(
 
 // DELETE THE POST
 controller.delete(
-  "/deletepost/:postId",
+  "/posts/:id",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const deletePost = await Post.findById(req.params.postId).populate([
+      const deletePost = await Post.findById(req.params.id).populate([
         {
           path: "postedBy",
           select: ["_id", "name"],
@@ -281,7 +281,7 @@ controller.delete(
         if (deletePost.postedBy._id.toString() === req.user._id.toString()) {
           try {
             await Post.deleteOne({
-              _id: req.params.postId,
+              _id: req.params.id,
             });
 
             res.status(200).json({ message: "Post deleted!" });

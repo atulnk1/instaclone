@@ -7,17 +7,17 @@ const User = require("../models/user");
 
 // FIND USER INFO ROUTE, TO POPULATE PROFILE PAGE
 controller.get(
-  "/profile/:userId",
+  "/profile/:id",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const findUser = await User.findById(req.params.userId, "-password");
+      const findUser = await User.findById(req.params.id, "-password");
       if (!findUser) {
         return res.status(422).json({ error: "Sorry, user not found." });
       } else {
         try {
           const findPosts = await Post.find({
-            postedBy: req.params.userId,
+            postedBy: req.params.id,
           }).populate([
             {
               path: "postedBy",
@@ -51,7 +51,7 @@ controller.get(
 
 // FOLLOW ROUTE - UPDATES LIST OF FOLLOWERS AND FOLLOWING
 controller.put(
-  "/follow",
+  "/profile/follow",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -89,7 +89,7 @@ controller.put(
               .status(422)
               .json({ error: "Unable to follow this user. Try again later." });
           } else {
-            return res.json({ updateFollowing });
+            return res.json(updateFollowing);
           }
         } catch (e) {
           return res.status(400).json({
@@ -109,7 +109,7 @@ controller.put(
 
 // UNFOLLOW ROUTE - UPDATES LIST OF FOLLOWERS AND FOLLOWING
 controller.put(
-  "/unfollow",
+  "/profile/unfollow",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -147,7 +147,7 @@ controller.put(
               error: "Unable to unfollow this user. Try again later.",
             });
           } else {
-            return res.json({ updateFollowing });
+            return res.json(updateFollowing);
           }
         } catch (e) {
           return res.status(400).json({
@@ -167,7 +167,7 @@ controller.put(
 
 // UPDATE PROFILE PICTURE
 controller.put(
-  "/updatepicture",
+  "/profile/update-picture",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -201,7 +201,7 @@ controller.put(
 
 // GET SUGGESTED PROFILES FOR A PARTICULAR USER
 controller.get(
-  "/recommended-users",
+  "/profile/recommended-users",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -250,7 +250,7 @@ controller.get(
 
 // SEARCH USER END POINT
 controller.post(
-  "/search-user",
+  "/profile/search-user",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     let userPattern = new RegExp("^" + req.body.query);
@@ -270,7 +270,7 @@ controller.post(
     if (!foundUsers) {
       return res.status(422).json({ error: "Sorry, no user found." });
     } else {
-      return res.json({ foundUsers });
+      return res.json(foundUsers);
     }
   }
 );

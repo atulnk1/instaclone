@@ -48,7 +48,7 @@ const passwordReset = (passwordResetEmail, resetToken) => {
   });
 };
 // SIGN UP ROUTE - WILL TAKE IN NAME, EMAIL, PASSWORD AND PROFILE PICTURE IF EMAIL IS UNIQUE AND SEND WELCOME EMAIL
-controller.post("/signup", async (req, res) => {
+controller.post("/auth/register", async (req, res) => {
   try {
     const { name, email, password, picture } = req.body;
     const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -95,7 +95,7 @@ controller.post("/signup", async (req, res) => {
 });
 
 // SIGN IN ROUTE - IF EMAIL EXISTS AND PASSWORD IS CORRECT, IT WILL ASSIGN THE USER A JWT TOKEN AND RETURN JWT TOKEN, ID, NAME, EMAIL, FOLLOWERS, FOLLOWING AND PROFILE PITCURE
-controller.post("/signin", async (req, res) => {
+controller.post("/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -139,7 +139,7 @@ controller.post("/signin", async (req, res) => {
 });
 
 // RESET PASSWORD ROUTE - WILL ASSIGN A RESET TOKEN AND EXPIRY FOR TOKEN AND SEND AN EMAIL TO THE USER
-controller.post("/reset-password", async (req, res) => {
+controller.post("/auth/reset-password", async (req, res) => {
   // creating a token for the reset password
   crypto.randomBytes(32, async (err, buffer) => {
     if (err) {
@@ -176,7 +176,7 @@ controller.post("/reset-password", async (req, res) => {
   });
 });
 // NEW PASSWORD ROUTE - IF TOKEN IS VALID, WILL CHANGE PASSWORD FOR REQUESTING EMAIL TO NEW PASSWORD AND SET RESET TOKEN AND EXPIRY TO NULL
-controller.post("/new-password", async (req, res) => {
+controller.post("/auth/new-password", async (req, res) => {
   try {
     const newPassword = req.body.password;
     /*If the reset link is valid, this should be the  

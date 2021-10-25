@@ -6,7 +6,7 @@ import UserContext from "../../context/user";
 function Sidebar() {
   const { state, dispatch } = useContext(UserContext);
 
-  const { _id, name, picture, following } = state ? state : {};
+  const { name, picture } = state ? state : {};
 
   // console.log("state at Sidebar Component", state);
 
@@ -18,12 +18,7 @@ function Sidebar() {
   return (
     <div>
       <User name={name} picture={picture} handleLogout={handleLogout} />
-      <Suggestions
-        following={following}
-        loggedInUserId={_id}
-        state={state}
-        dispatch={dispatch}
-      />
+      <Suggestions />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import Posts from "./Posts";
 import Sidebar from "./Sidebar";
 
 function Feed() {
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
 
   // console.log("state at Feed componenet", state);
 

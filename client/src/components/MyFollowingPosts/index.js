@@ -7,7 +7,7 @@ import Post from "./Post";
 
 function MyFollowingPosts() {
   const [data, setData] = useRecoilState(postDataState);
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
 
   // const [posts, setPosts] = useState([]);
   // console.log("state at Posts component", state);
@@ -42,8 +42,8 @@ function MyFollowingPosts() {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((response) => {
-      console.log(response);
-      console.log(data);
+      // console.log(response);
+      // console.log(data);
       const newData = data.filter((post) => {
         return post._id !== postId;
       });

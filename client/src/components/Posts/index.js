@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import UserContext from "../../context/user";
 import { useRecoilState } from "recoil";
 import { postDataState } from "../../atoms/modalAtom";
@@ -7,7 +7,7 @@ import Post from "./Post";
 
 function Posts() {
   const [data, setData] = useRecoilState(postDataState);
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
 
   // const [posts, setPosts] = useState([]);
   // console.log("state at Posts component", state);

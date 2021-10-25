@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Header from "../components/Header";
 import Modal from "../components/Header/Modal";
 import SearchingModal from "../components/Header/SearchingModal";

@@ -8,7 +8,7 @@ import ProfileModal from "./ProfileModal";
 
 function MyProfile() {
   const [myPosts, setMyPosts] = useState([]);
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
   const history = useHistory();
 
   // console.log("state at myprofile index page", state);

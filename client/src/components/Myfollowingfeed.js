@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
 import UserContext from "../context/user";
 import Stories from "./Stories";
-import Posts from "./Posts";
 import Sidebar from "./Sidebar";
 import MyFollowingPosts from "./MyFollowingPosts";
 
 function Myfollowingfeed() {
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
 
   // console.log("state at Feed componenet", state);
 

@@ -42,10 +42,10 @@ function ProfileModal() {
         },
       })
         .then((response) => {
-          console.log(
-            "I am making a PUT request to change my profile photo",
-            response.data
-          );
+          // console.log(
+          //   "I am making a PUT request to change my profile photo",
+          //   response.data
+          // );
           localStorage.setItem(
             "user",
             JSON.stringify({ ...state, picture: response.data.picture })
@@ -81,7 +81,7 @@ function ProfileModal() {
       data: formData,
     })
       .then((response) => {
-        console.log("Server response to uploading profile photo", response);
+        // console.log("Server response to uploading profile photo", response);
         setUrl(response.data.secure_url);
       })
       .catch((error) => console.log(error.response.data.error));

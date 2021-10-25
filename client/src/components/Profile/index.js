@@ -12,10 +12,10 @@ function Profile() {
   const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
 
-  console.log("state at other user profile index page", state);
+  // console.log("state at other user profile index page", state);
 
   useLayoutEffect(() => {
-    console.log("useLayoutEffect to redirect to myprofile page fired");
+    // console.log("useLayoutEffect to redirect to myprofile page fired");
     if (userId === state._id) history.push(ROUTES.MYPROFILE);
   }, []);
 
@@ -27,14 +27,14 @@ function Profile() {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((response) => {
-      console.log("/mypostsapireponse", response.data);
+      // console.log("/mypostsapireponse", response.data);
       setUserProfile(response.data);
     });
   }, []);
-  console.log(
-    "userProfile from GET request from /api/profile/:userId",
-    userProfile
-  );
+  // console.log(
+  //   "userProfile from GET request from /api/profile/:userId",
+  //   userProfile
+  // );
 
   return (
     <>

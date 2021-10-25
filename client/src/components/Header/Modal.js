@@ -2,7 +2,7 @@ import React, {
   Fragment,
   useRef,
   useState,
-  useContext,
+  // useContext,
   useEffect,
 } from "react";
 import { useRecoilState } from "recoil";
@@ -10,14 +10,14 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CameraIcon } from "@heroicons/react/outline";
 import { modalState } from "../../atoms/modalAtom";
 import { postDataState } from "../../atoms/modalAtom";
-import UserContext from "../../context/user";
+// import UserContext from "../../context/user";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
 
 function Modal() {
   const history = useHistory();
-  const { state, dispatch } = useContext(UserContext);
+  // const { state, dispatch } = useContext(UserContext);
   const [open, setOpen] = useRecoilState(modalState);
   const [data, setData] = useRecoilState(postDataState);
   const filePickerRef = useRef(null);

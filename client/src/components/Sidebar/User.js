@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
-import * as ROUTES from "../../constants/routes";
 
 // The <Skeleton> component is designed to be used directly in your components,
 // in place of content while it's still loading.

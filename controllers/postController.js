@@ -82,6 +82,7 @@ controller.get(
   async (req, res) => {
     try {
       // console.log(req.user._id);
+
       const myPosts = await Post.find({ postedBy: req.user._id }).populate([
         {
           path: "postedBy",

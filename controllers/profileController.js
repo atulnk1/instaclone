@@ -5,6 +5,56 @@ const passport = require("passport");
 const Post = require("../models/post");
 const User = require("../models/user");
 
+// GET SUGGESTED PROFILES FOR A PARTICULAR USER
+controller.get(
+  "/profile/recommended-users",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      // Get a list of the following users for the logged in user
+      
+      const listOfFollowing = await User.find(
+        { _id: req.user._id },
+        "following -_id"
+      );
+      // Set a new list that only contains an array for following ids, this is to be used for the next query
+      const newListOfFollowing = listOfFollowing.following;
+      console.log(newListOfFollowing);
+
+      // Find the list of users that the logged in is not following and don't include the users only id. Return first ten
+      const listToRecommend = await User.find(
+        {
+          $and: [
+            {
+              _id: {
+                $nin: newListOfFollowing,
+              },
+            },
+            {
+              _id: {
+                $ne: req.user._id,
+              },
+            },
+          ],
+        },
+        "-password"
+      ).limit(10);
+      if (listToRecommend) {
+        return res.json(listToRecommend);
+      } else {
+        return res.status(422).json({
+          error: "Sorry, no one to recommend",
+        });
+      }
+    } catch (e) {
+      return res.status(400).json({
+        name: e.name,
+        message: e.message,
+      });
+    }
+  }
+);
+
 // FIND USER INFO ROUTE, TO POPULATE PROFILE PAGE
 controller.get(
   "/profile/:id",
@@ -48,6 +98,8 @@ controller.get(
     }
   }
 );
+
+
 
 // FOLLOW ROUTE - UPDATES LIST OF FOLLOWERS AND FOLLOWING
 controller.put(
@@ -199,54 +251,7 @@ controller.put(
   }
 );
 
-// GET SUGGESTED PROFILES FOR A PARTICULAR USER
-controller.get(
-  "/profile/recommended-users",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      // Get a list of the following users for the logged in user
-      const listOfFollowing = await User.findById(
-        req.user._id,
-        "following -_id"
-      );
-      // Set a new list that only contains an array for following ids, this is to be used for the next query
-      const newListOfFollowing = listOfFollowing.following;
-      console.log(newListOfFollowing);
 
-      // Find the list of users that the logged in is not following and don't include the users only id. Return first ten
-      const listToRecommend = await User.find(
-        {
-          $and: [
-            {
-              _id: {
-                $nin: newListOfFollowing,
-              },
-            },
-            {
-              _id: {
-                $ne: req.user._id,
-              },
-            },
-          ],
-        },
-        "-password"
-      ).limit(10);
-      if (listToRecommend) {
-        return res.json(listToRecommend);
-      } else {
-        return res.status(422).json({
-          error: "Sorry, no one to recommend",
-        });
-      }
-    } catch (e) {
-      return res.status(400).json({
-        name: e.name,
-        message: e.message,
-      });
-    }
-  }
-);
 
 // SEARCH USER END POINT
 controller.post(

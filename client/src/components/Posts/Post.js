@@ -31,10 +31,10 @@ export default function Post({
   // console.log("postData at individual post component", postData);
 
   const unlikePost = () => {
-    console.log("unlike post functionality");
+    console.log("unlike post functionality triggered");
     axios({
       method: "PUT",
-      url: "/api/unlike",
+      url: "/api/posts/unlike",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -56,7 +56,7 @@ export default function Post({
     console.log("like post functionality triggered");
     axios({
       method: "PUT",
-      url: "/api/like",
+      url: "/api/posts/like",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -79,7 +79,7 @@ export default function Post({
     e.preventDefault();
     axios({
       method: "PUT",
-      url: "/api/comment",
+      url: "/api/posts/comment",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -94,7 +94,7 @@ export default function Post({
         //   "response.data of send Comment",
         //   response.data.addNewComment.comments
         // );
-        setComments(response.data.addNewComment.comments);
+        setComments(response.data.comments);
         setComment("");
       })
       .catch((err) => {

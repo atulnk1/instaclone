@@ -31,7 +31,7 @@ function ProfileModal() {
     if (url) {
       axios({
         method: "PUT",
-        url: "/api/updatepicture",
+        url: "/api/profile/update-picture",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("jwt"),

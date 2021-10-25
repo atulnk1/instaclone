@@ -16,12 +16,12 @@ function MyProfile() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "/api/myposts",
+      url: "/api/posts/myposts",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((response) => {
-      // console.log("/mypostsapireponse", response.data);
+      // console.log("/mypostsapireponse", response);
       setMyPosts(response.data);
     });
   }, []);
@@ -33,7 +33,7 @@ function MyProfile() {
       <ProfileHeader
         state={state}
         history={history}
-        photosCount={myPosts.myPosts ? myPosts.myPosts.length : 0}
+        photosCount={myPosts ? myPosts.length : 0}
       />
       {/* photos */}
       <PhotosCollection myPosts={myPosts} />

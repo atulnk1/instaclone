@@ -22,7 +22,7 @@ export default function Login() {
     event.preventDefault();
     const userWhoIsTryingToSignIn = {
       method: "POST",
-      url: "/api/signin",
+      url: "/api/auth/login",
       headers: {
         "Content-Type": "application/json",
       },

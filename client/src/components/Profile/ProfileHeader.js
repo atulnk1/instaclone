@@ -25,7 +25,7 @@ function ProfileHeader({
     // console.log("firing a follow user request");
     axios({
       method: "PUT",
-      url: "/api/follow",
+      url: "/api/profile/follow",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -38,23 +38,17 @@ function ProfileHeader({
       dispatch({
         type: "UPDATE",
         payload: {
-          following: response.data.updateFollowing.following,
-          followers: response.data.updateFollowing.followers,
+          following: response.data.following,
+          followers: response.data.followers,
         },
       });
-      localStorage.setItem(
-        "user",
-        JSON.stringify(response.data.updateFollowing)
-      );
+      localStorage.setItem("user", JSON.stringify(response.data));
       setUserProfile((prevState) => {
         return {
           ...prevState,
           findUser: {
             ...prevState.findUser,
-            followers: [
-              ...prevState.findUser.followers,
-              response.data.updateFollowing._id,
-            ],
+            followers: [...prevState.findUser.followers, response.data._id],
           },
         };
       });
@@ -63,7 +57,7 @@ function ProfileHeader({
 
   const unfollowUser = () => {
     // console.log("firing an unfollow user request");
-    fetch("/api/unfollow", {
+    fetch("/api/profile/unfollow", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -79,16 +73,16 @@ function ProfileHeader({
         dispatch({
           type: "UPDATE",
           payload: {
-            following: data.updateFollowing.following,
-            followers: data.updateFollowing.followers,
+            following: data.following,
+            followers: data.followers,
           },
         });
-        localStorage.setItem("user", JSON.stringify(data.updateFollowing));
+        localStorage.setItem("user", JSON.stringify(data));
 
         setUserProfile((prevState) => {
           // console.log(prevState);
           const newFollower = prevState.findUser.followers.filter(
-            (item) => item !== data.updateFollowing._id
+            (item) => item !== data._id
           );
           return {
             ...prevState,

@@ -52,7 +52,7 @@ export default function SignUp() {
   const uploadFields = async (event) => {
     const userWhoIsSigningUp = {
       method: "POST",
-      url: "/api/signup",
+      url: "/api/auth/register",
       headers: {
         "Content-Type": "application/json",
       },

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 
 import {
   BookmarkIcon,
@@ -34,7 +34,7 @@ export default function Post({
     console.log("unlike post functionality");
     axios({
       method: "PUT",
-      url: "/api/unlike",
+      url: "/api/posts/unlike",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -56,7 +56,7 @@ export default function Post({
     console.log("like post functionality triggered");
     axios({
       method: "PUT",
-      url: "/api/like",
+      url: "/api/posts/like",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -64,7 +64,7 @@ export default function Post({
       data: JSON.stringify({ postId: id }),
     })
       .then((response) => {
-        console.log("response.data of setting like post", response.data);
+        // console.log("response.data of setting like post", response.data);
         setLikes(response.data.likes);
       })
       .catch((err) => {
@@ -79,7 +79,7 @@ export default function Post({
     e.preventDefault();
     axios({
       method: "PUT",
-      url: "/api/comment",
+      url: "/api/posts/comment",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -94,7 +94,7 @@ export default function Post({
         //   "response.data of send Comment",
         //   response.data.addNewComment.comments
         // );
-        setComments(response.data.addNewComment.comments);
+        setComments(response.data.comments);
         setComment("");
       })
       .catch((err) => {

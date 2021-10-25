@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import UserContext from "../../context/user";
 import { useRecoilState } from "recoil";
 import { postDataState } from "../../atoms/modalAtom";
@@ -19,13 +19,13 @@ function MyFollowingPosts() {
       ();
     axios({
       method: "GET",
-      url: "/api/followingposts",
+      url: "/api/posts/following",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((response) => {
       // console.log(`my following post api call response`, response);
-      setData(response.data.followingPost);
+      setData(response.data);
     });
   }, []);
 

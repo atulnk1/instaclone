@@ -16,13 +16,13 @@ function Posts() {
     // console.log("useEffect Hook in Posts index component getting fired");
     axios({
       method: "GET",
-      url: "/api/allposts",
+      url: "/api/posts/all",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     }).then((response) => {
       // console.log(`all post api call response`, response);
-      setData(response.data.posts);
+      setData(response.data);
     });
   }, []);
 
@@ -34,7 +34,7 @@ function Posts() {
     // console.log("postId being passed through delete", postId);
     axios({
       method: "DELETE",
-      url: `/api/deletepost/${postId}`,
+      url: `/api/posts/${postId}`,
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },

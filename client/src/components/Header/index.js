@@ -3,7 +3,6 @@ import {
   SearchIcon,
   PlusCircleIcon,
   UserGroupIcon,
-  GlobeIcon,
   MenuIcon,
   LogoutIcon,
 } from "@heroicons/react/outline";

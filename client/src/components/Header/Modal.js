@@ -34,7 +34,7 @@ function Modal() {
     if (url) {
       axios({
         method: "POST",
-        url: "/api/newpost",
+        url: "/api/posts/create",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -46,8 +46,8 @@ function Modal() {
         },
       })
         .then((response) => {
-          // console.log(response.data);
-          setData([response.data.post, ...data]);
+          // console.log("modal line 49", response.data);
+          setData([response.data, ...data]);
           setOpen(false);
           setLoading(false);
           setSelectedFile(null);

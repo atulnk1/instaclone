@@ -212,7 +212,7 @@ controller.get(
       );
       // Set a new list that only contains an array for following ids, this is to be used for the next query
       const newListOfFollowing = listOfFollowing.following;
-      // console.log(newListOfFollowing)
+      console.log(newListOfFollowing);
 
       // Find the list of users that the logged in is not following and don't include the users only id. Return first ten
       const listToRecommend = await User.find(

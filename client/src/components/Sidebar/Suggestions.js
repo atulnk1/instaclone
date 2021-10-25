@@ -11,17 +11,29 @@ function Suggestions({ following, loggedInUserId, state, dispatch }) {
   const history = useHistory();
 
   useEffect(() => {
+    console.log("useEffect at suggestions getting fired");
     axios({
       method: "GET",
-      url: `/api/recommended-users`,
+      url: `/api/profile/recommended-users`,
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-    }).then((response) => {
-      // console.log("suggestions response at sidebar GET request", response.data);
-      setSuggestions(response.data);
-    });
+    })
+      .then((response) => {
+        console.log(
+          "suggestions response at sidebar GET request",
+          response.data
+        );
+        setSuggestions(response.data);
+      })
+      .catch((error) => {
+        if (error) {
+          console.log(error);
+        }
+      });
   }, []);
+
+  console.log(suggestions);
 
   return !suggestions ? (
     <Skeleton count={1} height={150} className="mt-5" />

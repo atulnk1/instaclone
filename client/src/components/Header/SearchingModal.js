@@ -1,24 +1,14 @@
-import React, {
-  Fragment,
-  useRef,
-  useState,
-  useContext,
-  useEffect,
-} from "react";
+import React, { Fragment, useState } from "react";
 import { useRecoilState } from "recoil";
 import { Dialog, Transition } from "@headlessui/react";
 import { searchModalState } from "../../atoms/modalAtom";
-import { postDataState } from "../../atoms/modalAtom";
-import UserContext from "../../context/user";
+
 import axios from "axios";
-import { useHistory, Link } from "react-router-dom";
-import { CameraIcon, SearchIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
+import { SearchIcon } from "@heroicons/react/outline";
 
 export default function SearchingModal() {
-  const history = useHistory();
-  const { state, dispatch } = useContext(UserContext);
   const [open, setOpen] = useRecoilState(searchModalState);
-  const [data, setData] = useRecoilState(postDataState);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [searchQueryReturn, setSearchQueryReturn] = useState([]);
@@ -30,7 +20,7 @@ export default function SearchingModal() {
     setSearch(query);
     axios({
       method: "POST",
-      url: "/api/search-user",
+      url: "/api/profile/search-user",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -38,7 +28,7 @@ export default function SearchingModal() {
       data: JSON.stringify({ query }),
     })
       .then((response) => {
-        query && setSearchQueryReturn(response.data.foundUsers);
+        query && setSearchQueryReturn(response.data);
         console.log(searchQueryReturn);
       })
       .catch((error) => console.log(error));
@@ -109,7 +99,6 @@ export default function SearchingModal() {
                       <input
                         className="border-none focus:ring-0 w-full text-center"
                         type="text"
-                        // ref={captionRef}
                         value={search}
                         onChange={(e) => fetchUsers(e.target.value)}
                         placeholder="Type in the user here..."

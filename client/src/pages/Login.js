@@ -5,7 +5,7 @@ import axios from "axios";
 import UserContext from "../context/user";
 
 export default function Login() {
-  const { state, dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
   const history = useHistory();
 
   // console.log("state at login page", state);

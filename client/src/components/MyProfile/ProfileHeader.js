@@ -1,13 +1,12 @@
 import React, { useContext } from "react";
 import Skeleton from "react-loading-skeleton";
-import * as ROUTES from "../../constants/routes";
 import { useRecoilState } from "recoil";
 import UserContext from "../../context/user";
 import { PencilIcon } from "@heroicons/react/outline";
 import { profileModalState } from "../../atoms/modalAtom";
 
 function ProfileHeader({ photosCount }) {
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
   const [open, setOpen] = useRecoilState(profileModalState);
 
   // console.log("myPosts at profile header", myPosts.myPosts);

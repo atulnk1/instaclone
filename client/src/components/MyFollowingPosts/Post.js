@@ -31,7 +31,7 @@ export default function Post({
   // console.log("postData at individual post component", postData);
 
   const unlikePost = () => {
-    console.log("unlike post functionality");
+    // console.log("unlike post functionality");
     axios({
       method: "PUT",
       url: "/api/posts/unlike",
@@ -53,7 +53,7 @@ export default function Post({
   };
 
   const likePost = () => {
-    console.log("like post functionality triggered");
+    // console.log("like post functionality triggered");
     axios({
       method: "PUT",
       url: "/api/posts/like",
@@ -75,7 +75,7 @@ export default function Post({
   };
 
   const sendComment = (e) => {
-    console.log("sendComment functionality triggered");
+    // console.log("sendComment functionality triggered");
     e.preventDefault();
     axios({
       method: "PUT",

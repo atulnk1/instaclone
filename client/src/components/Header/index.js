@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   SearchIcon,
   PlusCircleIcon,
@@ -38,17 +38,19 @@ function Header() {
             src="https://i.ibb.co/YcNHmgk/2880px-Instagram-logo-svg.webp"
             layout="fill"
             objectFit="contain"
+            alt="Insta-logo"
           />
         </div>
 
         <div
-          onClick={() => console.log("Route back to dashboard")}
+          onClick={() => history.push(ROUTES.DASHBOARD)}
           className="relative w-10 my-auto lg:hidden flex-shrink-0 cursor-pointer"
         >
           <img
             src="https://i.ibb.co/72qPrYt/insta-logo.png"
             layout="fill"
             objectFit="contain"
+            alt="Insta-logo-mobile"
           />
         </div>
 
@@ -74,7 +76,7 @@ function Header() {
           <Link to={ROUTES.DASHBOARD}>
             <HomeIcon className="navBtn" />
           </Link>
-          <MenuIcon className="h-6 md:hidden cursor-pointer" />
+          {/* <MenuIcon className="h-6 md:hidden cursor-pointer" /> */}
           <PlusCircleIcon
             onClick={() => {
               setOpen(true);
@@ -90,8 +92,8 @@ function Header() {
           <Link to={ROUTES.MYPROFILE}>
             <img
               src={state ? state.picture : ""}
-              alt="Profile Picture"
-              className="h-10 w-10 rounded-full cursor-pointer"
+              alt="Profile Pic"
+              className="sm:h-10 w-10 rounded-full cursor-pointer"
             />
           </Link>
         </div>

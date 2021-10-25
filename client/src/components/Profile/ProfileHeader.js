@@ -1,10 +1,4 @@
-import React, { useContext, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import * as ROUTES from "../../constants/routes";
-import { useRecoilState } from "recoil";
-import UserContext from "../../context/user";
-import { PencilIcon } from "@heroicons/react/outline";
-import { profileModalState } from "../../atoms/modalAtom";
 import axios from "axios";
 
 function ProfileHeader({
@@ -34,7 +28,7 @@ function ProfileHeader({
         followId: userId,
       }),
     }).then((response) => {
-      console.log(response);
+      // console.log(response);
       dispatch({
         type: "UPDATE",
         payload: {
@@ -69,7 +63,7 @@ function ProfileHeader({
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         dispatch({
           type: "UPDATE",
           payload: {
@@ -103,13 +97,13 @@ function ProfileHeader({
         {userProfile ? (
           <img
             className="rounded-full h-16 w-16 md:h-20 lg:h-40 md:w-20 lg:w-40 flex"
-            alt="logged in user profile picture"
+            alt="logged in user profile pic"
             src={userProfile?.findUser?.picture}
           />
         ) : (
           <img
             className="rounded-full h-16 w-16 md:h-20 lg:h-40 md:w-20 lg:w-40 flex"
-            alt={`my profile picture`}
+            alt={`my profile pic`}
             src="/images/avatars/darryl.jpg"
           />
         )}

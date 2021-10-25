@@ -6,12 +6,12 @@ import axios from "axios";
 
 // import SuggestedProfiles from "./suggested-profiles";
 
-function Suggestions({ following, loggedInUserId, state, dispatch }) {
+function Suggestions() {
   const [suggestions, setSuggestions] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
-    console.log("useEffect at suggestions getting fired");
+    // console.log("useEffect at suggestions getting fired");
     axios({
       method: "GET",
       url: `/api/profile/recommended-users`,
@@ -20,10 +20,10 @@ function Suggestions({ following, loggedInUserId, state, dispatch }) {
       },
     })
       .then((response) => {
-        console.log(
-          "suggestions response at sidebar GET request",
-          response.data
-        );
+        // console.log(
+        //   "suggestions response at sidebar GET request",
+        //   response.data
+        // );
         setSuggestions(response.data);
       })
       .catch((error) => {
@@ -33,7 +33,7 @@ function Suggestions({ following, loggedInUserId, state, dispatch }) {
       });
   }, []);
 
-  console.log(suggestions);
+  // console.log(suggestions);
 
   return !suggestions ? (
     <Skeleton count={1} height={150} className="mt-5" />

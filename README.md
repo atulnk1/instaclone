@@ -23,8 +23,8 @@ The application also relies on the following services:
 The application allows the user to do the following functions:
 * Sign up/Sign in to an account 
     * User can create an email + password account and upload a profile picture during sign up
-    * Passwords are hased before store during sign up
-    * A welcome email is sent to the use
+    * Passwords are hashed before store during sign up
+    * A welcome email is sent to the user
     * A JWT token is issued afer signing in 
 * Create/Delete posts
     * Each post allows the user to add
@@ -38,7 +38,7 @@ The application allows the user to do the following functions:
     * The user is able to see all the posts that they have made
     * The user is able to update their profile picture
     * The user is able to see the number of followers (i.e. number of other users who are following the logged in user)
-    * The user is able to see their number of following (i.e. number of other users that the logged in user is following)
+    * The user is able to see their number of following accounts (i.e. number of other users that the logged in user is following)
 * Post comments 
     * The user is able to create comments on other user posts 
     * All users will be able to see the comments made by each other on posts
